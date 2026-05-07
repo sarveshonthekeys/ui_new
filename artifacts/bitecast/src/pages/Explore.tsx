@@ -1,15 +1,15 @@
 import { playlists } from "@/data/mockData";
-import { Search, Briefcase, Brain, Atom, Landmark, HeartPulse, BookOpen } from "lucide-react";
+import { Search } from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL;
 
 const categories = [
-  { id: "business",   icon: Briefcase,  image: `${BASE}cat-business.png`,   pos: "center" },
-  { id: "mindset",    icon: Brain,      image: `${BASE}cat-mindset.png`,     pos: "center" },
-  { id: "science",    icon: Atom,       image: `${BASE}cat-science.png`,     pos: "center top" },
-  { id: "history",    icon: Landmark,   image: `${BASE}cat-history.png`,     pos: "center" },
-  { id: "health",     icon: HeartPulse, image: `${BASE}cat-health.png`,      pos: "center" },
-  { id: "philosophy", icon: BookOpen,   image: `${BASE}cat-philosophy.png`,  pos: "center" },
+  { id: "business",   image: `${BASE}cat-business.png`   },
+  { id: "mindset",    image: `${BASE}cat-mindset.png`    },
+  { id: "science",    image: `${BASE}cat-science.png`    },
+  { id: "history",    image: `${BASE}cat-history.png`    },
+  { id: "health",     image: `${BASE}cat-health.png`     },
+  { id: "philosophy", image: `${BASE}cat-philosophy.png` },
 ];
 
 export default function Explore() {
@@ -29,36 +29,23 @@ export default function Explore() {
         </div>
       </div>
 
-      {/* Categories — 2 per row, square cards, image fills, icon top-left */}
+      {/* Categories — 2 per row, native 5:3 ratio so images show uncropped */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
         <div className="grid grid-cols-2 gap-3">
-          {categories.map(({ id, icon: Icon, image, pos }) => (
+          {categories.map(({ id, image }) => (
             <div
               key={id}
-              className="w-full rounded-2xl overflow-hidden relative cursor-pointer active:opacity-85 transition-opacity"
-              style={{
-                aspectRatio: "1/1",
-                border: "1px solid rgba(109,74,255,0.3)",
-                background: "var(--bg-elevated)",
-              }}
+              className="w-full rounded-2xl overflow-hidden cursor-pointer active:opacity-80 transition-opacity"
+              style={{ border: "1px solid rgba(109,74,255,0.25)" }}
             >
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: `url(${image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: pos,
-                }}
+              <img
+                src={image}
+                alt={id}
+                className="w-full h-auto block"
+                style={{ display: "block" }}
+                draggable={false}
               />
-              <div className="absolute top-3 left-3">
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(11,15,20,0.55)", backdropFilter: "blur(6px)" }}
-                >
-                  <Icon size={17} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
-                </div>
-              </div>
             </div>
           ))}
         </div>
