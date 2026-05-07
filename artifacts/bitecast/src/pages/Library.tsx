@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { clips } from "@/data/mockData";
-import { Play, Heart, Bookmark } from "lucide-react";
+import { Heart, Bookmark } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Library() {
@@ -14,10 +14,7 @@ export default function Library() {
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         <h1 className="text-[20px] font-bold mb-3" style={{ color: "var(--text-primary)" }}>Library</h1>
-        <div
-          className="flex gap-2 p-1 rounded-2xl"
-          style={{ background: "var(--bg-elevated)" }}
-        >
+        <div className="flex gap-2 p-1 rounded-2xl" style={{ background: "var(--bg-elevated)" }}>
           {(["liked", "saved"] as const).map((t) => (
             <button
               key={t}
@@ -39,7 +36,10 @@ export default function Library() {
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-48 gap-3">
             <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "var(--bg-elevated)" }}>
-              {tab === "liked" ? <Heart size={24} style={{ color: "var(--text-secondary)" }} strokeWidth={1.5} /> : <Bookmark size={24} style={{ color: "var(--text-secondary)" }} strokeWidth={1.5} />}
+              {tab === "liked"
+                ? <Heart size={24} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
+                : <Bookmark size={24} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
+              }
             </div>
             <p className="text-[13px]" style={{ color: "var(--text-secondary)" }}>No {tab === "liked" ? "liked" : "saved"} clips yet</p>
           </div>
@@ -52,16 +52,11 @@ export default function Library() {
                     className="w-full rounded-2xl relative overflow-hidden"
                     style={{ background: clip.thumbnailColor, aspectRatio: "9/14", border: "1px solid rgba(255,255,255,0.05)" }}
                   >
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.8) 0%, transparent 50%)" }} />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "rgba(109,74,255,0.25)", backdropFilter: "blur(6px)" }}>
-                        <Play size={14} className="text-white fill-white ml-0.5" />
-                      </div>
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.75) 0%, transparent 55%)" }} />
+                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
+                      <p className="font-semibold text-[11px] leading-snug line-clamp-2 text-white">{clip.title}</p>
+                      <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>{clip.author}</p>
                     </div>
-                  </div>
-                  <div className="mt-2 px-0.5">
-                    <p className="font-semibold text-[12px] leading-snug line-clamp-2" style={{ color: "var(--text-primary)" }}>{clip.title}</p>
-                    <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>{clip.author}</p>
                   </div>
                 </div>
               </Link>

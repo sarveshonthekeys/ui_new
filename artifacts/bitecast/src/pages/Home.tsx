@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, Heart, Eye, Bookmark, Play } from "lucide-react";
+import { Bell, Heart, Eye, Bookmark } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
 import { Link } from "wouter";
 
@@ -26,14 +26,6 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
           style={{ background: clip.thumbnailColor, aspectRatio: "9/12" }}
         >
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.5) 0%, transparent 40%)" }} />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="rounded-full flex items-center justify-center"
-              style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", width: 52, height: 52 }}
-            >
-              <Play size={20} className="fill-white text-white ml-0.5" />
-            </div>
-          </div>
         </div>
       </Link>
 
