@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, Play, Youtube, AlignJustify, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, Play, Youtube, AlignJustify } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
 import { useLocation } from "wouter";
 
@@ -132,13 +132,13 @@ function BitesCard({ clip, showAbout }: { clip: Clip; showAbout: boolean }) {
       style={{ background: clip.thumbnailColor, width: "100%", height: "100%" }}
       onClick={() => { if (!showDesc && !showAbout) setPlaying((p) => !p); }}
     >
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.95) 0%, rgba(11,15,20,0.3) 40%, transparent 70%)" }} />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.08) 0%, transparent 50%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.95) 0%, rgba(11,15,20,0.2) 50%, transparent 75%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.06) 0%, transparent 50%)" }} />
 
       {!playing && !showDesc && !showAbout && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
           <div
-            className="w-18 h-18 rounded-full flex items-center justify-center"
+            className="rounded-full flex items-center justify-center"
             style={{ background: "rgba(109,74,255,0.25)", backdropFilter: "blur(12px)", border: "1px solid rgba(109,74,255,0.4)", width: 72, height: 72 }}
           >
             <Play size={28} className="text-white fill-white ml-1" />
@@ -148,36 +148,49 @@ function BitesCard({ clip, showAbout }: { clip: Clip; showAbout: boolean }) {
 
       {showDesc && <DescriptionOverlay clip={clip} onClose={() => setShowDesc(false)} />}
 
+      {/* Right-side action buttons — positioned in the middle-lower area, clear of bottom info */}
       {!showDesc && !showAbout && (
-        <div className="absolute right-3 bottom-32 flex flex-col items-center gap-5 z-10">
+        <div className="absolute right-3 flex flex-col items-center gap-5 z-10" style={{ bottom: "160px" }}>
           <button
             className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => { e.stopPropagation(); setLiked(!liked); setLikes((l) => l + (liked ? -1 : 1)); }}
           >
-            <Heart size={26} className={liked ? "fill-current" : ""} style={{ color: liked ? "#f87171" : "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
-            <span className="text-[11px] font-medium text-white/70">{likes}</span>
+            <Heart
+              size={26}
+              strokeWidth={1.5}
+              style={{ color: liked ? "#f87171" : "rgba(255,255,255,0.85)" }}
+            />
+            <span className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>{likes}</span>
           </button>
+
           <button
             className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => { e.stopPropagation(); setSaved(!saved); }}
           >
-            <Bookmark size={24} className={saved ? "fill-current" : ""} style={{ color: saved ? "var(--accent-purple)" : "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
+            <Bookmark
+              size={24}
+              strokeWidth={1.5}
+              style={{ color: saved ? "var(--accent-purple)" : "rgba(255,255,255,0.85)" }}
+            />
           </button>
+
           <button
             className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => e.stopPropagation()}
           >
-            <ThumbsDown size={24} style={{ color: "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
+            <ThumbsDown size={24} strokeWidth={1.5} style={{ color: "rgba(255,255,255,0.85)" }} />
           </button>
+
           <button
             className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
           >
             {muted
-              ? <VolumeX size={24} style={{ color: "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
-              : <Volume2 size={24} style={{ color: "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
+              ? <VolumeX size={24} strokeWidth={1.5} style={{ color: "rgba(255,255,255,0.85)" }} />
+              : <Volume2 size={24} strokeWidth={1.5} style={{ color: "rgba(255,255,255,0.85)" }} />
             }
           </button>
+
           <button
             className="flex flex-col items-center active:scale-90 transition-transform"
             onClick={(e) => { e.stopPropagation(); setSpeedIdx((i) => (i + 1) % speeds.length); }}
@@ -189,8 +202,9 @@ function BitesCard({ clip, showAbout }: { clip: Clip; showAbout: boolean }) {
         </div>
       )}
 
+      {/* Bottom info — fixed height area at bottom */}
       {!showDesc && !showAbout && (
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-24 z-10">
+        <div className="absolute bottom-0 left-0 right-0 px-4 z-10" style={{ paddingBottom: "80px", paddingRight: "60px" }}>
           <div className="flex items-center gap-2 mb-2">
             <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "var(--accent-purple-dim)", border: "1px solid rgba(109,74,255,0.3)" }}>
               <span className="text-[10px] font-bold" style={{ color: "var(--accent-purple)" }}>?</span>
@@ -198,9 +212,9 @@ function BitesCard({ clip, showAbout }: { clip: Clip; showAbout: boolean }) {
             <span className="text-white/80 font-semibold text-[13px]">{clip.author}</span>
           </div>
           <div className="flex items-end justify-between">
-            <p className="text-white font-semibold text-[15px] leading-snug max-w-[75%]">{clip.title}</p>
+            <p className="text-white font-semibold text-[15px] leading-snug flex-1 mr-2">{clip.title}</p>
             <button
-              className="active:opacity-70 flex-shrink-0 ml-2 w-8 h-8 rounded-full flex items-center justify-center"
+              className="active:opacity-70 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
               style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)" }}
               onClick={(e) => { e.stopPropagation(); setShowDesc(true); }}
             >
@@ -258,21 +272,6 @@ export default function Bites() {
 
   const currentClip = clips[current];
 
-  function goNext() {
-    const el = scrollRef.current;
-    if (!el) return;
-    const next = Math.min(current + 1, clips.length - 1);
-    el.scrollTo({ left: next * el.clientWidth, behavior: "smooth" });
-    setCurrent(next);
-  }
-  function goPrev() {
-    const el = scrollRef.current;
-    if (!el) return;
-    const prev = Math.max(current - 1, 0);
-    el.scrollTo({ left: prev * el.clientWidth, behavior: "smooth" });
-    setCurrent(prev);
-  }
-
   return (
     <div
       ref={containerRef}
@@ -281,37 +280,16 @@ export default function Bites() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-50">
-        <button
-          className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
-          onClick={() => navigate("/")}
-        >
-          <ArrowLeft size={18} className="text-white" />
-        </button>
-        <div className="flex items-center gap-1">
-          {clips.map((_, i) => (
-            <div key={i} className="rounded-full transition-all duration-300" style={{ width: i === current ? 16 : 4, height: 4, background: i === current ? "var(--accent-purple)" : "rgba(255,255,255,0.2)" }} />
-          ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
-            style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
-            onClick={goPrev}
-          >
-            <ChevronLeft size={18} className="text-white" />
-          </button>
-          <button
-            className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
-            style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
-            onClick={goNext}
-          >
-            <ChevronRight size={18} className="text-white" />
-          </button>
-        </div>
-      </div>
+      {/* Back button only */}
+      <button
+        className="absolute top-4 left-4 z-50 w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
+        style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
+        onClick={() => navigate("/")}
+      >
+        <ArrowLeft size={18} className="text-white" />
+      </button>
 
+      {/* Horizontal snap scroll */}
       <div
         ref={scrollRef}
         className="w-full h-full flex overflow-x-scroll snap-x snap-mandatory"

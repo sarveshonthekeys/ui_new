@@ -1,15 +1,6 @@
 import { categories, playlists } from "@/data/mockData";
 import { Play, Search } from "lucide-react";
 
-const categoryIcons: Record<string, string> = {
-  "1": "💼",
-  "2": "🧠",
-  "3": "🔬",
-  "4": "🌍",
-  "5": "💪",
-  "6": "🪐",
-};
-
 export default function Explore() {
   return (
     <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
@@ -27,16 +18,16 @@ export default function Explore() {
         </div>
       </div>
 
+      {/* Categories — auto-height, no empty space */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
         <div className="grid grid-cols-2 gap-3">
           {categories.map((cat) => (
             <div
               key={cat.id}
-              className="rounded-2xl p-4 cursor-pointer active:opacity-75 transition-opacity"
+              className="rounded-2xl px-4 py-3.5 cursor-pointer active:opacity-75 transition-opacity"
               style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
-              <span className="text-2xl mb-2 block">{categoryIcons[cat.id]}</span>
               <h3 className="font-semibold text-[13px] leading-snug mb-1" style={{ color: "var(--text-primary)" }}>{cat.name}</h3>
               <p className="text-[11px] leading-snug" style={{ color: "var(--text-secondary)" }}>{cat.description}</p>
             </div>
@@ -44,6 +35,7 @@ export default function Explore() {
         </div>
       </div>
 
+      {/* Curated Playlists — rectangular 9:14 like library */}
       <div className="px-4 mt-7">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Curated Playlists</p>
         <div className="grid grid-cols-2 gap-3">
@@ -51,12 +43,10 @@ export default function Explore() {
             <div key={pl.id} className="cursor-pointer active:opacity-75 transition-opacity">
               <div
                 className="w-full rounded-2xl relative overflow-hidden"
-                style={{ background: pl.thumbnailColor, aspectRatio: "1/1", border: "1px solid rgba(255,255,255,0.05)" }}
+                style={{ background: pl.thumbnailColor, aspectRatio: "9/14", border: "1px solid rgba(255,255,255,0.05)" }}
               >
-                <div
-                  className="absolute inset-0"
-                  style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.15) 0%, transparent 60%)" }}
-                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.8) 0%, transparent 50%)" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.12) 0%, transparent 60%)" }} />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center"

@@ -6,7 +6,7 @@ import { Link } from "wouter";
 function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, field: "liked" | "saved", val: boolean) => void }) {
   return (
     <div className="mb-5 px-4">
-      {/* Author row — above the thumbnail */}
+      {/* Author row */}
       <div className="flex items-center gap-2 mb-2">
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
@@ -27,20 +27,11 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
           className="w-full rounded-2xl relative overflow-hidden cursor-pointer"
           style={{ background: clip.thumbnailColor, aspectRatio: "9/12" }}
         >
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgba(11,15,20,0.5) 0%, transparent 40%)" }}
-          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.5) 0%, transparent 40%)" }} />
           <div className="absolute inset-0 flex items-center justify-center">
             <div
-              className="w-13 h-13 rounded-full flex items-center justify-center"
-              style={{
-                background: "rgba(255,255,255,0.15)",
-                backdropFilter: "blur(8px)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                width: 52,
-                height: 52,
-              }}
+              className="rounded-full flex items-center justify-center"
+              style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", width: 52, height: 52 }}
             >
               <Play size={20} className="fill-white text-white ml-0.5" />
             </div>
@@ -49,10 +40,7 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
       </Link>
 
       {/* Title */}
-      <p
-        className="text-[15px] font-semibold leading-snug mt-2.5 mb-2"
-        style={{ color: "var(--text-primary)" }}
-      >
+      <p className="text-[15px] font-semibold leading-snug mt-2.5 mb-2" style={{ color: "var(--text-primary)" }}>
         {clip.title}
       </p>
 
@@ -64,9 +52,8 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
         >
           <Heart
             size={18}
-            className={clip.liked ? "fill-current" : ""}
-            style={{ color: clip.liked ? "#f87171" : "var(--text-secondary)" }}
             strokeWidth={1.5}
+            style={{ color: clip.liked ? "#f87171" : "var(--text-secondary)" }}
           />
           <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>{clip.likes}</span>
         </button>
@@ -82,9 +69,8 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
         >
           <Bookmark
             size={18}
-            className={clip.saved ? "fill-current" : ""}
-            style={{ color: clip.saved ? "var(--accent-purple)" : "var(--text-secondary)" }}
             strokeWidth={1.5}
+            style={{ color: clip.saved ? "var(--accent-purple)" : "var(--text-secondary)" }}
           />
           <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>{clip.bookmarks}</span>
         </button>
@@ -113,14 +99,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-20" style={{ background: "var(--bg-primary)" }}>
-      {/* Header */}
       <div
         className="flex items-center justify-between px-4 py-4 sticky top-0 z-40"
-        style={{
-          background: "rgba(11,15,20,0.92)",
-          backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
+        style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         <div>
           <h1 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>BiteCast</h1>
@@ -134,7 +115,6 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Feed */}
       <div className="pt-4">
         {clipList.map((clip) => (
           <VideoCard key={clip.id} clip={clip} onUpdate={handleUpdate} />
