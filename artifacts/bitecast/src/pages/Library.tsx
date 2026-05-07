@@ -55,7 +55,6 @@ export default function Library() {
                     <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.75) 0%, transparent 55%)" }} />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
                       <p className="font-semibold text-[11px] leading-snug line-clamp-2 text-white">{clip.title}</p>
-                      <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>{clip.author}</p>
                     </div>
                   </div>
                 </div>
