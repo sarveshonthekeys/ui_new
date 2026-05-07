@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, MoreVertical, Play, Youtube, AlignJustify } from "lucide-react";
+import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, Play, Youtube, AlignJustify, ChevronLeft, ChevronRight } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
 import { useLocation } from "wouter";
 
@@ -20,85 +20,71 @@ const longDescriptions: Record<string, string> = {
 
 function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClose: () => void }) {
   const tags = clip.hashtags.map((h) => h.replace("#", ""));
-
   return (
-    <div className="absolute inset-0 z-40 flex flex-col bg-black/60">
+    <div className="absolute inset-0 z-40 flex flex-col" style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)" }}>
       <div
-        className="absolute bottom-0 left-0 right-0 rounded-t-2xl overflow-y-auto"
-        style={{ top: "8%", background: "#111" }}
+        className="absolute bottom-0 left-0 right-0 rounded-t-3xl overflow-y-auto"
+        style={{ top: "10%", background: "var(--bg-surface)", border: "1px solid rgba(255,255,255,0.07)" }}
       >
-        <div className="flex justify-center pt-3 pb-2 sticky top-0 bg-[#111] z-10">
-          <div className="w-10 h-1 rounded-full bg-white/25" />
+        <div className="flex justify-center pt-3 pb-2 sticky top-0 z-10" style={{ background: "var(--bg-surface)" }}>
+          <div className="w-10 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
         </div>
-
-        <button onClick={onClose} className="text-white px-4 pb-2">
-          <ArrowLeft size={22} />
+        <button onClick={onClose} className="px-4 pb-2" style={{ color: "var(--text-secondary)" }}>
+          <ArrowLeft size={20} />
         </button>
-
-        <div className="px-4 pb-8 flex flex-col gap-6">
+        <div className="px-5 pb-10 flex flex-col gap-6">
           <div>
-            <h2 className="text-white text-2xl font-bold mb-1">About</h2>
-            <p className="text-white/80 text-sm leading-snug">{clip.title}</p>
+            <h2 className="font-bold text-[20px] mb-1" style={{ color: "var(--text-primary)" }}>About</h2>
+            <p className="text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>{clip.title}</p>
           </div>
-
           <div>
-            <h2 className="text-white text-2xl font-bold mb-3">Creator</h2>
-            <div className="bg-white/8 rounded-xl px-4 py-3 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
-                <span className="text-white text-sm font-bold">?</span>
+            <h2 className="font-bold text-[16px] mb-3" style={{ color: "var(--text-primary)" }}>Creator</h2>
+            <div className="rounded-2xl px-4 py-3 flex items-center gap-3" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "var(--accent-purple-dim)", border: "1px solid rgba(109,74,255,0.2)" }}>
+                <span className="font-bold text-sm" style={{ color: "var(--accent-purple)" }}>?</span>
               </div>
               <div>
-                <p className="text-white font-semibold text-sm leading-snug">{clip.podcastName}</p>
-                <p className="text-white/50 text-xs mt-0.5">Podcast</p>
+                <p className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>{clip.podcastName}</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Podcast</p>
               </div>
             </div>
           </div>
-
           <div>
-            <h2 className="text-white text-2xl font-bold mb-3">Watch Full Episode</h2>
-            <div className="bg-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70">
-              <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center flex-shrink-0">
-                <Youtube size={16} className="text-white" strokeWidth={2} />
+            <h2 className="font-bold text-[16px] mb-3" style={{ color: "var(--text-primary)" }}>Watch Full Episode</h2>
+            <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center flex-shrink-0">
+                <Youtube size={15} className="text-white" strokeWidth={2} />
               </div>
-              <span className="text-white font-semibold text-sm">Watch on YouTube</span>
+              <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>Watch on YouTube</span>
             </div>
           </div>
-
           <div>
-            <h2 className="text-white text-2xl font-bold mb-3">Podcast</h2>
-            <div className="bg-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70">
-              <AlignJustify size={20} className="text-white/70" strokeWidth={1.5} />
-              <span className="text-white font-semibold text-sm">View Playlist</span>
+            <h2 className="font-bold text-[16px] mb-3" style={{ color: "var(--text-primary)" }}>Podcast</h2>
+            <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <AlignJustify size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
+              <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>View Playlist</span>
             </div>
           </div>
-
           <div>
-            <h2 className="text-white text-2xl font-bold mb-3">Tags</h2>
+            <h2 className="font-bold text-[16px] mb-3" style={{ color: "var(--text-primary)" }}>Tags</h2>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1.5 rounded-full text-white/80 text-sm border border-white/20"
-                  style={{ background: "rgba(255,255,255,0.06)" }}
-                >
+                <span key={tag} className="px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ background: "var(--accent-purple-dim)", color: "var(--accent-purple)", border: "1px solid rgba(109,74,255,0.2)" }}>
                   {tag}
                 </span>
               ))}
             </div>
           </div>
-
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white/8 rounded-xl py-4 text-center">
-              <p className="text-white text-2xl font-bold">{likes}</p>
-              <p className="text-white/50 text-xs mt-0.5">Likes</p>
+            <div className="rounded-2xl py-4 text-center" style={{ background: "var(--bg-elevated)" }}>
+              <p className="font-bold text-[22px]" style={{ color: "var(--text-primary)" }}>{likes}</p>
+              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Likes</p>
             </div>
-            <div className="bg-white/8 rounded-xl py-4 text-center">
-              <p className="text-white text-2xl font-bold">{clip.views}</p>
-              <p className="text-white/50 text-xs mt-0.5">Views</p>
+            <div className="rounded-2xl py-4 text-center" style={{ background: "var(--bg-elevated)" }}>
+              <p className="font-bold text-[22px]" style={{ color: "var(--text-primary)" }}>{clip.views}</p>
+              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Views</p>
             </div>
           </div>
-
-          <p className="text-white/35 text-xs text-center">Swipe down to dismiss</p>
         </div>
       </div>
     </div>
@@ -108,25 +94,21 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
 function DescriptionOverlay({ clip, onClose }: { clip: Clip; onClose: () => void }) {
   const text = longDescriptions[clip.id] || clip.description;
   const paragraphs = text.split("\n\n");
-
   return (
-    <div
-      className="absolute inset-0 z-30 flex flex-col justify-end"
-      onClick={onClose}
-    >
+    <div className="absolute inset-0 z-30 flex flex-col justify-end" onClick={onClose}>
       <div
-        className="h-1/2 rounded-t-2xl overflow-y-auto"
-        style={{ background: "rgba(10,10,10,0.96)", backdropFilter: "blur(8px)" }}
+        className="h-2/3 rounded-t-3xl overflow-y-auto"
+        style={{ background: "rgba(18,24,33,0.97)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.07)" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center pt-3 pb-1">
-          <div className="w-9 h-1 rounded-full bg-white/25" />
+          <div className="w-9 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
         </div>
-        <div className="px-4 pt-2 pb-8">
-          <h2 className="text-white font-bold text-base leading-snug mb-3">{clip.title}</h2>
-          <div className="flex flex-col gap-3">
+        <div className="px-5 pt-2 pb-10">
+          <h2 className="font-bold text-[16px] leading-snug mb-4" style={{ color: "var(--text-primary)" }}>{clip.title}</h2>
+          <div className="flex flex-col gap-4">
             {paragraphs.map((para, i) => (
-              <p key={i} className="text-white/80 text-sm leading-relaxed">{para}</p>
+              <p key={i} className="text-[13px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>{para}</p>
             ))}
           </div>
         </div>
@@ -150,93 +132,85 @@ function BitesCard({ clip, showAbout }: { clip: Clip; showAbout: boolean }) {
       style={{ background: clip.thumbnailColor, width: "100%", height: "100%" }}
       onClick={() => { if (!showDesc && !showAbout) setPlaying((p) => !p); }}
     >
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.95) 0%, rgba(11,15,20,0.3) 40%, transparent 70%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.08) 0%, transparent 50%)" }} />
+
       {!playing && !showDesc && !showAbout && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-16 h-16 rounded-full bg-black/40 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+          <div
+            className="w-18 h-18 rounded-full flex items-center justify-center"
+            style={{ background: "rgba(109,74,255,0.25)", backdropFilter: "blur(12px)", border: "1px solid rgba(109,74,255,0.4)", width: 72, height: 72 }}
+          >
             <Play size={28} className="text-white fill-white ml-1" />
           </div>
         </div>
       )}
 
-      {showDesc && (
-        <DescriptionOverlay clip={clip} onClose={() => setShowDesc(false)} />
-      )}
+      {showDesc && <DescriptionOverlay clip={clip} onClose={() => setShowDesc(false)} />}
 
       {!showDesc && !showAbout && (
-        <div className="absolute right-3 bottom-36 flex flex-col items-center gap-6 z-10">
+        <div className="absolute right-3 bottom-32 flex flex-col items-center gap-5 z-10">
           <button
-            className="flex flex-col items-center gap-1"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLiked(!liked);
-              setLikes((l) => l + (liked ? -1 : 1));
-            }}
+            className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
+            onClick={(e) => { e.stopPropagation(); setLiked(!liked); setLikes((l) => l + (liked ? -1 : 1)); }}
           >
-            <Heart
-              size={28}
-              className={liked ? "fill-red-500 text-red-500" : "text-white drop-shadow"}
-              strokeWidth={1.5}
-            />
-            <span className="text-white text-xs drop-shadow">{likes}</span>
+            <Heart size={26} className={liked ? "fill-current" : ""} style={{ color: liked ? "#f87171" : "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
+            <span className="text-[11px] font-medium text-white/70">{likes}</span>
           </button>
-
           <button
-            className="flex flex-col items-center gap-1"
+            className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => { e.stopPropagation(); setSaved(!saved); }}
           >
-            <Bookmark
-              size={26}
-              className={saved ? "fill-amber-400 text-amber-400" : "text-white drop-shadow"}
-              strokeWidth={1.5}
-            />
+            <Bookmark size={24} className={saved ? "fill-current" : ""} style={{ color: saved ? "var(--accent-purple)" : "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
           </button>
-
           <button
-            className="flex flex-col items-center gap-1"
+            className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => e.stopPropagation()}
           >
-            <ThumbsDown size={26} className="text-white drop-shadow" strokeWidth={1.5} />
+            <ThumbsDown size={24} style={{ color: "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
           </button>
-
           <button
-            className="flex flex-col items-center gap-1"
+            className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
             onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
           >
-            {muted ? (
-              <VolumeX size={26} className="text-white drop-shadow" strokeWidth={1.5} />
-            ) : (
-              <Volume2 size={26} className="text-white drop-shadow" strokeWidth={1.5} />
-            )}
+            {muted
+              ? <VolumeX size={24} style={{ color: "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
+              : <Volume2 size={24} style={{ color: "rgba(255,255,255,0.85)" }} strokeWidth={1.5} />
+            }
           </button>
-
           <button
-            className="flex flex-col items-center"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSpeedIdx((i) => (i + 1) % speeds.length);
-            }}
+            className="flex flex-col items-center active:scale-90 transition-transform"
+            onClick={(e) => { e.stopPropagation(); setSpeedIdx((i) => (i + 1) % speeds.length); }}
           >
-            <span className="text-white text-sm font-bold drop-shadow">{speeds[speedIdx]}x</span>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)" }}>
+              <span className="text-white text-[12px] font-bold">{speeds[speedIdx]}x</span>
+            </div>
           </button>
         </div>
       )}
 
       {!showDesc && !showAbout && (
-        <div className="absolute bottom-0 left-0 right-0 p-4 pb-20 bg-gradient-to-t from-black/80 to-transparent">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-white text-xs font-bold">?</span>
+        <div className="absolute bottom-0 left-0 right-0 px-4 pb-24 z-10">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "var(--accent-purple-dim)", border: "1px solid rgba(109,74,255,0.3)" }}>
+              <span className="text-[10px] font-bold" style={{ color: "var(--accent-purple)" }}>?</span>
             </div>
-            <span className="text-white font-semibold text-sm">{clip.author}</span>
+            <span className="text-white/80 font-semibold text-[13px]">{clip.author}</span>
           </div>
-          <div className="flex items-center justify-between">
-            <p className="text-white text-sm leading-snug max-w-[80%]">{clip.title}</p>
+          <div className="flex items-end justify-between">
+            <p className="text-white font-semibold text-[15px] leading-snug max-w-[75%]">{clip.title}</p>
             <button
-              className="text-white/70 p-1"
+              className="active:opacity-70 flex-shrink-0 ml-2 w-8 h-8 rounded-full flex items-center justify-center"
+              style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)" }}
               onClick={(e) => { e.stopPropagation(); setShowDesc(true); }}
             >
-              <MoreVertical size={20} />
+              <AlignJustify size={15} className="text-white" />
             </button>
+          </div>
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {clip.hashtags.slice(0, 3).map((tag) => (
+              <span key={tag} className="text-[11px]" style={{ color: "var(--accent-purple)" }}>{tag}</span>
+            ))}
           </div>
         </div>
       )}
@@ -251,48 +225,32 @@ export default function Bites() {
   const [current, setCurrent] = useState(0);
   const [showAbout, setShowAbout] = useState(false);
 
-  // Use a ref so the wheel/touch handlers always see fresh state
   const showAboutRef = useRef(showAbout);
   useEffect(() => { showAboutRef.current = showAbout; }, [showAbout]);
 
-  // Non-passive wheel listener so we can preventDefault and stop horizontal scroll
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-
     function onWheel(e: WheelEvent) {
-      // Ignore mostly-horizontal wheel moves (trackpad horizontal scroll)
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-
-      if (e.deltaY < -20 && !showAboutRef.current) {
-        e.preventDefault();
-        setShowAbout(true);
-      } else if (e.deltaY > 20 && showAboutRef.current) {
-        e.preventDefault();
-        setShowAbout(false);
-      }
+      if (e.deltaY < -20 && !showAboutRef.current) { e.preventDefault(); setShowAbout(true); }
+      else if (e.deltaY > 20 && showAboutRef.current) { e.preventDefault(); setShowAbout(false); }
     }
-
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
-  // Touch gesture detection
   const touchStartY = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
-
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
     touchStartX.current = e.touches[0].clientX;
   }, []);
-
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (touchStartY.current === null || touchStartX.current === null) return;
     const deltaY = e.changedTouches[0].clientY - touchStartY.current;
     const deltaX = e.changedTouches[0].clientX - touchStartX.current;
-    touchStartY.current = null;
-    touchStartX.current = null;
-    // Ignore horizontal swipes
+    touchStartY.current = null; touchStartX.current = null;
     if (Math.abs(deltaX) > Math.abs(deltaY)) return;
     if (deltaY < -50 && !showAboutRef.current) setShowAbout(true);
     if (deltaY > 50 && showAboutRef.current) setShowAbout(false);
@@ -300,22 +258,60 @@ export default function Bites() {
 
   const currentClip = clips[current];
 
+  function goNext() {
+    const el = scrollRef.current;
+    if (!el) return;
+    const next = Math.min(current + 1, clips.length - 1);
+    el.scrollTo({ left: next * el.clientWidth, behavior: "smooth" });
+    setCurrent(next);
+  }
+  function goPrev() {
+    const el = scrollRef.current;
+    if (!el) return;
+    const prev = Math.max(current - 1, 0);
+    el.scrollTo({ left: prev * el.clientWidth, behavior: "smooth" });
+    setCurrent(prev);
+  }
+
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 bg-black"
+      className="absolute inset-0"
+      style={{ background: "var(--bg-primary)" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Back button */}
-      <button
-        className="absolute top-4 left-4 z-50 text-white"
-        onClick={() => navigate("/")}
-      >
-        <ArrowLeft size={24} />
-      </button>
+      <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-50">
+        <button
+          className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft size={18} className="text-white" />
+        </button>
+        <div className="flex items-center gap-1">
+          {clips.map((_, i) => (
+            <div key={i} className="rounded-full transition-all duration-300" style={{ width: i === current ? 16 : 4, height: 4, background: i === current ? "var(--accent-purple)" : "rgba(255,255,255,0.2)" }} />
+          ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
+            style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
+            onClick={goPrev}
+          >
+            <ChevronLeft size={18} className="text-white" />
+          </button>
+          <button
+            className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
+            style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
+            onClick={goNext}
+          >
+            <ChevronRight size={18} className="text-white" />
+          </button>
+        </div>
+      </div>
 
-      {/* Horizontal snap scroll */}
       <div
         ref={scrollRef}
         className="w-full h-full flex overflow-x-scroll snap-x snap-mandatory"
@@ -326,21 +322,12 @@ export default function Bites() {
         }}
       >
         {clips.map((clip, i) => (
-          <BitesCard
-            key={clip.id}
-            clip={clip}
-            showAbout={showAbout && i === current}
-          />
+          <BitesCard key={clip.id} clip={clip} showAbout={showAbout && i === current} />
         ))}
       </div>
 
-      {/* About panel rendered above everything */}
       {showAbout && currentClip && (
-        <AboutPanel
-          clip={currentClip}
-          likes={currentClip.likes}
-          onClose={() => setShowAbout(false)}
-        />
+        <AboutPanel clip={currentClip} likes={currentClip.likes} onClose={() => setShowAbout(false)} />
       )}
     </div>
   );

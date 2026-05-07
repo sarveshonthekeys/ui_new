@@ -1,49 +1,74 @@
 import { categories, playlists } from "@/data/mockData";
-import { Play } from "lucide-react";
+import { Play, Search } from "lucide-react";
+
+const categoryIcons: Record<string, string> = {
+  "1": "💼",
+  "2": "🧠",
+  "3": "🔬",
+  "4": "🌍",
+  "5": "💪",
+  "6": "🪐",
+};
 
 export default function Explore() {
   return (
-    <div className="min-h-screen bg-black pb-24">
-      {/* Header */}
-      <div className="px-4 pt-6 pb-2 sticky top-0 bg-black z-40">
-        <h1 className="text-white text-2xl font-bold">Explore</h1>
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
+      <div
+        className="px-4 pt-5 pb-4 sticky top-0 z-40"
+        style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+      >
+        <h1 className="text-[20px] font-bold mb-3" style={{ color: "var(--text-primary)" }}>Explore</h1>
+        <div
+          className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl"
+          style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.06)" }}
+        >
+          <Search size={16} style={{ color: "var(--text-secondary)" }} strokeWidth={1.5} />
+          <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>Search topics, creators…</span>
+        </div>
       </div>
 
-      {/* Categories */}
-      <div className="px-4 mt-2">
+      <div className="px-4 mt-5">
+        <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
         <div className="grid grid-cols-2 gap-3">
           {categories.map((cat) => (
             <div
               key={cat.id}
-              className="rounded-xl p-4 cursor-pointer active:opacity-80"
-              style={{ background: cat.color, border: "1px solid rgba(255,255,255,0.08)" }}
+              className="rounded-2xl p-4 cursor-pointer active:opacity-75 transition-opacity"
+              style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
-              <h3 className="text-white font-bold text-[15px] mb-1">{cat.name}</h3>
-              <p className="text-white/55 text-xs leading-snug">{cat.description}</p>
+              <span className="text-2xl mb-2 block">{categoryIcons[cat.id]}</span>
+              <h3 className="font-semibold text-[13px] leading-snug mb-1" style={{ color: "var(--text-primary)" }}>{cat.name}</h3>
+              <p className="text-[11px] leading-snug" style={{ color: "var(--text-secondary)" }}>{cat.description}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Podcast Playlists */}
-      <div className="px-4 mt-6">
-        <h2 className="text-white text-xl font-bold mb-3">Podcast Playlists</h2>
+      <div className="px-4 mt-7">
+        <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Curated Playlists</p>
         <div className="grid grid-cols-2 gap-3">
           {playlists.map((pl) => (
-            <div key={pl.id} className="cursor-pointer active:opacity-80">
+            <div key={pl.id} className="cursor-pointer active:opacity-75 transition-opacity">
               <div
-                className="w-full rounded-xl relative overflow-hidden"
-                style={{ background: pl.thumbnailColor, aspectRatio: "1/1", border: "1px solid rgba(255,255,255,0.06)" }}
+                className="w-full rounded-2xl relative overflow-hidden"
+                style={{ background: pl.thumbnailColor, aspectRatio: "1/1", border: "1px solid rgba(255,255,255,0.05)" }}
               >
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.15) 0%, transparent 60%)" }}
+                />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center">
-                    <Play size={18} className="text-white fill-white ml-0.5" />
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{ background: "rgba(109,74,255,0.2)", backdropFilter: "blur(8px)", border: "1px solid rgba(109,74,255,0.3)" }}
+                  >
+                    <Play size={16} className="text-white fill-white ml-0.5" />
                   </div>
                 </div>
               </div>
-              <div className="mt-2 px-1">
-                <p className="text-white font-semibold text-sm leading-snug">{pl.title}</p>
-                <p className="text-white/50 text-xs mt-0.5">{pl.clipCount} clips</p>
+              <div className="mt-2 px-0.5">
+                <p className="font-semibold text-[12px] leading-snug line-clamp-2" style={{ color: "var(--text-primary)" }}>{pl.title}</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>{pl.clipCount} clips</p>
               </div>
             </div>
           ))}

@@ -1,0 +1,178 @@
+Redesign the entire app UI using a premium dark self-improvement aesthetic with a cinematic podcast feel.
+
+IMPORTANT:
+Do NOT make the app look like a generic “AI vibe coded” product.
+Avoid excessive neon, gradients everywhere, RGB effects, or overly futuristic crypto/gaming aesthetics.
+
+The UI should feel:
+- premium
+- immersive
+- calm
+- modern
+- habit-forming
+- focused
+- self-improvement oriented
+
+VISUAL STYLE:
+Use a dark cinematic interface similar to a mix of:
+- Spotify premium
+- Linear
+- Headspace
+- modern podcast apps
+- minimalist productivity apps
+
+The design language should prioritize:
+- clean spacing
+- soft shadows
+- layered depth
+- rounded corners
+- subtle glows
+- minimal clutter
+- oversized content cards
+- immersive media
+
+--------------------------------------------------
+COLOR SYSTEM
+--------------------------------------------------
+
+Primary Background:
+#0B0F14
+
+Secondary Surface:
+#121821
+
+Elevated Cards:
+#1A2330
+
+Primary Text:
+#F5F7FA
+
+Secondary Text:
+#9AA4B2
+
+MAIN ACCENT COLOR (PRIMARY):
+Use a darker premium purple:
+#6D4AFF
+
+Use this purple for:
+- active tabs
+- selected icons
+- buttons
+- progress bars
+- playback sliders
+- waveform highlights
+- active navigation states
+
+SECONDARY ACCENT COLOR:
+Use muted teal/green:
+#2FA39A
+
+Use this ONLY for:
+- achievements
+- streaks
+- progress indicators
+- growth/reward psychology
+- small highlights
+
+DO NOT use the teal as the primary app color.
+
+AMBIENT LIGHTING:
+Use very subtle purple ambient glow in:
+- player backgrounds
+- blurred overlays
+- hero sections
+- active cards
+
+Keep the glow soft and cinematic.
+Avoid harsh neon effects.
+
+--------------------------------------------------
+UI RULES
+--------------------------------------------------
+
+- Use mostly dark neutrals (90% dark UI)
+- Use accent colors sparingly
+- Avoid colorful screens
+- No hard borders unless necessary
+- Prefer shadows + layered depth over outlines
+- Use glassmorphism lightly only where appropriate
+- Maintain excellent contrast and readability
+
+--------------------------------------------------
+TYPOGRAPHY
+--------------------------------------------------
+
+Use:
+- Inter
+or
+- SF Pro style typography
+
+Style:
+- large bold titles
+- clean spacing
+- soft hierarchy
+- readable subtitles
+
+Avoid:
+- overly playful typography
+- excessive font weights
+- cramped layouts
+
+--------------------------------------------------
+COMPONENT STYLE
+--------------------------------------------------
+
+Buttons:
+- rounded
+- subtle glow on active states
+- minimal elevation
+
+Cards:
+- soft radius (20–28px)
+- dark layered surfaces
+- subtle shadows
+
+Navigation:
+- minimalist bottom navbar
+- active state in purple
+- inactive icons muted gray
+
+Player Screen:
+- cinematic
+- immersive
+- blurred background image
+- large subtitles/transcript
+- floating playback controls
+- elegant progress slider
+
+Feed:
+- content-first
+- minimal distractions
+- oversized thumbnails/cards
+- smooth scrolling feel
+
+--------------------------------------------------
+ANIMATION STYLE
+--------------------------------------------------
+
+Animations should be:
+- smooth
+- soft
+- premium
+- slightly slow
+- fluid
+
+Avoid:
+- bouncy animations
+- flashy transitions
+- exaggerated motion
+
+--------------------------------------------------
+OVERALL GOAL
+--------------------------------------------------
+
+The app should psychologically feel like:
+“I’m improving myself”
+while still being engaging enough to keep users consuming content.
+
+It should feel premium, intelligent, calming, and immersive.
