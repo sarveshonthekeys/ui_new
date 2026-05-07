@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, MoreVertical, Youtube, AlignJustify } from "lucide-react";
+import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, Youtube, AlignJustify, Eye } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
 import { useLocation, useSearch } from "wouter";
 
@@ -29,111 +29,110 @@ interface ClipState {
 
 function AboutPanel({ clip, state, onClose }: { clip: Clip; state: ClipState; onClose: () => void }) {
   const tags = clip.hashtags.map((h) => h.replace("#", ""));
+  const description = longDescriptions[clip.id] || clip.description;
+
   return (
-    <div className="absolute inset-0 z-40" style={{ background: "rgba(0,0,0,0.4)", backdropFilter: "blur(2px)" }}>
+    <div className="absolute inset-0 z-40" style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(2px)" }}>
       <div
         className="absolute bottom-0 left-0 right-0 overflow-y-auto rounded-t-3xl"
-        style={{ top: "6%", background: "var(--bg-primary)", border: "1px solid rgba(255,255,255,0.07)" }}
+        style={{ top: "5%", background: "var(--bg-primary)", border: "1px solid rgba(255,255,255,0.07)" }}
       >
         {/* Drag handle + back */}
-        <div className="flex items-center justify-between px-4 pt-3 pb-2 sticky top-0 z-10" style={{ background: "var(--bg-primary)" }}>
-          <button onClick={onClose}>
+        <div
+          className="flex items-center justify-between px-4 pt-3 pb-2 sticky top-0 z-10"
+          style={{ background: "var(--bg-primary)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+        >
+          <button onClick={onClose} className="active:opacity-60">
             <ArrowLeft size={20} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
           </button>
           <div className="w-10 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
           <div className="w-6" />
         </div>
 
-        <div className="px-5 pb-10 flex flex-col gap-6">
-          {/* About */}
-          <div>
-            <h2 className="font-bold text-[22px] mb-1" style={{ color: "var(--text-primary)" }}>About</h2>
-            <p className="text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>{clip.title}</p>
-          </div>
+        <div className="px-5 pt-5 pb-12 flex flex-col gap-5">
 
-          {/* Creator */}
-          <div>
-            <h2 className="font-bold text-[18px] mb-3" style={{ color: "var(--text-primary)" }}>Creator</h2>
-            <div className="rounded-2xl px-4 py-3 flex items-center gap-3" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.15)", border: "1px solid rgba(109,74,255,0.2)" }}>
-                <span className="font-bold text-sm" style={{ color: "var(--accent-purple)" }}>?</span>
-              </div>
-              <div>
-                <p className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>{clip.podcastName}</p>
-                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Podcast</p>
-              </div>
+          {/* Creator + title block */}
+          <div className="flex items-center gap-3">
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: "rgba(109,74,255,0.15)", border: "2px solid rgba(109,74,255,0.3)" }}
+            >
+              <span className="text-[20px] font-bold" style={{ color: "var(--accent-purple)" }}>?</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-[16px]" style={{ color: "var(--text-primary)" }}>{clip.author}</p>
+              <p className="text-[12px] mt-0.5" style={{ color: "var(--text-secondary)" }}>{clip.podcastName}</p>
             </div>
           </div>
 
-          {/* Watch Full Episode */}
+          {/* Reel title */}
           <div>
-            <h2 className="font-bold text-[18px] mb-3" style={{ color: "var(--text-primary)" }}>Watch Full Episode</h2>
-            <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <div className="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center flex-shrink-0">
-                <Youtube size={15} className="text-white" strokeWidth={2} />
-              </div>
-              <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>Watch on YouTube</span>
-            </div>
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-1.5" style={{ color: "var(--text-secondary)" }}>Reel</p>
+            <p className="font-bold text-[17px] leading-snug" style={{ color: "var(--text-primary)" }}>{clip.title}</p>
           </div>
 
-          {/* Podcast */}
+          {/* Description */}
           <div>
-            <h2 className="font-bold text-[18px] mb-3" style={{ color: "var(--text-primary)" }}>Podcast</h2>
-            <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <AlignJustify size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
-              <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>View Playlist</span>
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div>
-            <h2 className="font-bold text-[18px] mb-3" style={{ color: "var(--text-primary)" }}>Tags</h2>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <span key={tag} className="px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ background: "rgba(109,74,255,0.12)", color: "var(--accent-purple)", border: "1px solid rgba(109,74,255,0.2)" }}>
-                  {tag}
-                </span>
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Description</p>
+            <div className="rounded-2xl px-4 py-3.5" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              {description.split("\n\n").map((para, i) => (
+                <p key={i} className={`text-[13px] leading-relaxed${i > 0 ? " mt-3" : ""}`} style={{ color: "var(--text-secondary)" }}>{para}</p>
               ))}
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-2xl py-4 text-center" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <p className="font-bold text-[24px]" style={{ color: "var(--text-primary)" }}>{state.likes}</p>
-              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Likes</p>
+          {/* Watch + Playlist */}
+          <div className="flex flex-col gap-2">
+            <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center flex-shrink-0">
+                <Youtube size={15} className="text-white" strokeWidth={2} />
+              </div>
+              <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>Watch Full Episode on YouTube</span>
             </div>
-            <div className="rounded-2xl py-4 text-center" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <p className="font-bold text-[24px]" style={{ color: "var(--text-primary)" }}>{clip.views}</p>
-              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Views</p>
+            <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.15)" }}>
+                <AlignJustify size={15} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+              </div>
+              <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>View Playlist</span>
+            </div>
+          </div>
+
+          {/* Hashtags */}
+          {tags.length > 0 && (
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Tags</p>
+              <div className="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span key={tag} className="px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ background: "rgba(109,74,255,0.12)", color: "var(--accent-purple)", border: "1px solid rgba(109,74,255,0.2)" }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Stats — 2×2 grid */}
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Stats</p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "Likes",    value: state.likes,               icon: Heart,      color: "#f87171" },
+                { label: "Views",    value: clip.views,                icon: Eye,        color: "var(--accent-teal)" },
+                { label: "Saves",    value: state.saved ? clip.bookmarks + 1 : clip.bookmarks, icon: Bookmark, color: "var(--accent-purple)" },
+                { label: "Dislikes", value: state.disliked ? 1 : 0,   icon: ThumbsDown, color: "var(--text-secondary)" },
+              ].map(({ label, value, icon: Icon, color }) => (
+                <div key={label} className="rounded-2xl py-3.5 px-4 flex items-center gap-3" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <Icon size={16} strokeWidth={1.5} style={{ color }} />
+                  <div>
+                    <p className="font-bold text-[16px]" style={{ color: "var(--text-primary)" }}>{value}</p>
+                    <p className="text-[10px]" style={{ color: "var(--text-secondary)" }}>{label}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           <p className="text-center text-[11px]" style={{ color: "var(--text-secondary)" }}>Swipe down to dismiss</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DescriptionOverlay({ clip, onClose }: { clip: Clip; onClose: () => void }) {
-  const text = longDescriptions[clip.id] || clip.description;
-  const paragraphs = text.split("\n\n");
-  return (
-    <div className="absolute inset-0 z-30 flex flex-col justify-end" onClick={onClose}>
-      <div
-        className="h-2/3 rounded-t-3xl overflow-y-auto"
-        style={{ background: "rgba(18,24,33,0.97)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.07)" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex justify-center pt-3 pb-1">
-          <div className="w-9 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
-        </div>
-        <div className="px-5 pt-2 pb-10">
-          <h2 className="font-bold text-[16px] leading-snug mb-4" style={{ color: "var(--text-primary)" }}>{clip.title}</h2>
-          {paragraphs.map((para, i) => (
-            <p key={i} className="text-[13px] leading-relaxed mb-3" style={{ color: "var(--text-secondary)" }}>{para}</p>
-          ))}
         </div>
       </div>
     </div>
@@ -147,7 +146,6 @@ export default function Bites() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);
   const [showAbout, setShowAbout] = useState(false);
-  const [showDesc, setShowDesc] = useState(false);
   const didScrollRef = useRef(false);
 
   const [clipStates, setClipStates] = useState<Record<string, ClipState>>(() => {
@@ -158,7 +156,6 @@ export default function Bites() {
     return init;
   });
 
-  // Scroll to clip from query param on mount
   useEffect(() => {
     if (didScrollRef.current) return;
     const params = new URLSearchParams(search);
@@ -166,8 +163,7 @@ export default function Bites() {
     if (clipId) {
       const idx = clips.findIndex((c) => c.id === clipId);
       if (idx > 0 && scrollRef.current) {
-        const width = scrollRef.current.clientWidth;
-        scrollRef.current.scrollLeft = idx * width;
+        scrollRef.current.scrollLeft = idx * scrollRef.current.clientWidth;
         setCurrent(idx);
       }
     }
@@ -230,7 +226,7 @@ export default function Bites() {
         onScroll={(e) => {
           const el = e.currentTarget;
           const idx = Math.round(el.scrollLeft / el.clientWidth);
-          if (idx !== current) { setCurrent(idx); setShowAbout(false); setShowDesc(false); }
+          if (idx !== current) { setCurrent(idx); setShowAbout(false); }
         }}
       >
         {clips.map((clip) => (
@@ -254,7 +250,7 @@ export default function Bites() {
       </button>
 
       {/* Right-side action buttons */}
-      {!showAbout && !showDesc && (
+      {!showAbout && (
         <div className="absolute right-3.5 flex flex-col items-center gap-6 z-10" style={{ bottom: "96px" }}>
           <button
             className="flex flex-col items-center gap-1 active:scale-90 transition-transform"
@@ -293,34 +289,29 @@ export default function Bites() {
         </div>
       )}
 
-      {/* Bottom info overlay — pushed to very bottom */}
-      {!showAbout && !showDesc && (
-        <div className="absolute left-0 z-10" style={{ bottom: "16px", paddingLeft: "16px", paddingRight: "68px" }}>
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.15)" }}>
-              <span className="text-[12px] font-bold text-white">?</span>
+      {/* Bottom info overlay — bigger avatar + name, no hashtags, no three-dots */}
+      {!showAbout && (
+        <div
+          className="absolute left-0 z-10"
+          style={{ bottom: "16px", paddingLeft: "16px", paddingRight: "68px" }}
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)", border: "1.5px solid rgba(255,255,255,0.2)" }}
+            >
+              <span className="text-[16px] font-bold text-white">?</span>
             </div>
-            <span className="font-semibold text-[14px] text-white">{currentClip.author}</span>
+            <span className="font-bold text-[18px] text-white">{currentClip.author}</span>
           </div>
-          <div className="flex items-end gap-2">
-            <p className="flex-1 text-[13px] leading-snug" style={{ color: "rgba(255,255,255,0.85)" }}>{currentClip.title}</p>
-            <button className="flex-shrink-0 active:opacity-60 mb-0.5" onClick={() => setShowDesc(true)}>
-              <MoreVertical size={18} strokeWidth={1.5} style={{ color: "rgba(255,255,255,0.65)" }} />
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-1.5 mt-1.5">
-            {currentClip.hashtags.slice(0, 3).map((tag) => (
-              <span key={tag} className="text-[11px]" style={{ color: "var(--accent-purple)" }}>{tag}</span>
-            ))}
-          </div>
+          <p className="text-[13px] leading-snug" style={{ color: "rgba(255,255,255,0.85)" }}>
+            {currentClip.title}
+          </p>
         </div>
       )}
 
       {/* About panel (swipe up) */}
       {showAbout && <AboutPanel clip={currentClip} state={state} onClose={() => setShowAbout(false)} />}
-
-      {/* Description overlay (three-dots) */}
-      {showDesc && <DescriptionOverlay clip={currentClip} onClose={() => setShowDesc(false)} />}
     </div>
   );
 }

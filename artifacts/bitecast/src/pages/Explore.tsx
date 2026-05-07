@@ -4,42 +4,12 @@ import { Search, Briefcase, Brain, Atom, Landmark, HeartPulse, BookOpen } from "
 const BASE = import.meta.env.BASE_URL;
 
 const categories = [
-  {
-    id: "business",
-    name: "Business & Finance",
-    icon: Briefcase,
-    image: `${BASE}cat-business.png`,
-  },
-  {
-    id: "mindset",
-    name: "Motivation & Mindset",
-    icon: Brain,
-    image: `${BASE}cat-mindset.png`,
-  },
-  {
-    id: "science",
-    name: "Science & Tech",
-    icon: Atom,
-    image: `${BASE}cat-science.png`,
-  },
-  {
-    id: "history",
-    name: "History & Culture",
-    icon: Landmark,
-    image: `${BASE}cat-history.png`,
-  },
-  {
-    id: "health",
-    name: "Health & Fitness",
-    icon: HeartPulse,
-    image: `${BASE}cat-health.png`,
-  },
-  {
-    id: "philosophy",
-    name: "Philosophy",
-    icon: BookOpen,
-    image: `${BASE}cat-philosophy.png`,
-  },
+  { id: "business", icon: Briefcase, image: `${BASE}cat-business.png` },
+  { id: "mindset",  icon: Brain,     image: `${BASE}cat-mindset.png`  },
+  { id: "science",  icon: Atom,      image: `${BASE}cat-science.png`  },
+  { id: "history",  icon: Landmark,  image: `${BASE}cat-history.png`  },
+  { id: "health",   icon: HeartPulse,image: `${BASE}cat-health.png`   },
+  { id: "philosophy",icon: BookOpen, image: `${BASE}cat-philosophy.png`},
 ];
 
 export default function Explore() {
@@ -59,35 +29,27 @@ export default function Explore() {
         </div>
       </div>
 
-      {/* Categories — full-width landscape cards */}
+      {/* Categories — 2 per row, image only + icon, no name, no gradient */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
-        <div className="flex flex-col gap-3">
-          {categories.map(({ id, name, icon: Icon, image }) => (
+        <div className="grid grid-cols-2 gap-3">
+          {categories.map(({ id, icon: Icon, image }) => (
             <div
               key={id}
               className="w-full rounded-2xl overflow-hidden relative cursor-pointer active:opacity-85 transition-opacity"
               style={{
-                aspectRatio: "16/7",
+                aspectRatio: "4/3",
                 border: "1px solid rgba(109,74,255,0.35)",
                 background: "var(--bg-primary)",
               }}
             >
-              {/* Right-side image */}
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${image})` }}
               />
-              {/* Gradient: dark on left, transparent on right */}
-              <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(to right, var(--bg-primary) 38%, rgba(11,15,20,0.7) 58%, transparent 80%)" }}
-              />
-
-              {/* Content — icon top-left, name bottom-left */}
-              <div className="absolute inset-0 flex flex-col justify-between p-4">
-                <Icon size={28} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
-                <h3 className="font-bold text-[18px] leading-tight text-white">{name}</h3>
+              {/* Icon only — top-left */}
+              <div className="absolute top-3 left-3">
+                <Icon size={22} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
               </div>
             </div>
           ))}
@@ -105,15 +67,12 @@ export default function Explore() {
               style={{ background: pl.thumbnailColor, aspectRatio: "9/14", border: "1px solid rgba(255,255,255,0.05)" }}
             >
               <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.88) 0%, rgba(11,15,20,0.2) 50%, transparent 75%)" }} />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.1) 0%, transparent 60%)" }} />
-
               <div
                 className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[11px] font-bold"
                 style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", color: "rgba(255,255,255,0.9)" }}
               >
                 {pl.clipCount}
               </div>
-
               <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
                 <p className="font-semibold text-[12px] leading-snug line-clamp-2 text-white">{pl.title}</p>
               </div>
