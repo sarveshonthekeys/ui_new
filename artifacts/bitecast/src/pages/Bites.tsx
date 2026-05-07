@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, MoreVertical, Play } from "lucide-react";
+import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, MoreVertical, Play, Youtube, AlignJustify } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
 import { useLocation } from "wouter";
 
@@ -18,6 +18,103 @@ const longDescriptions: Record<string, string> = {
   "10": "Traditional pricing is dead. The idea that you set a price and it stays fixed — that model is being destroyed by data, by subscriptions, by dynamic pricing algorithms.\n\nAmazon changes prices millions of times a day. Uber prices surge based on demand. Airlines have been doing this for decades.\n\nThe companies that win are the ones that understand the psychology of pricing. Anchoring. Decoy effects. Subscription lock-in. The price is not just a number — it's a signal, a relationship, a commitment.",
 };
 
+function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClose: () => void }) {
+  const tags = clip.hashtags.map((h) => h.replace("#", ""));
+
+  return (
+    <div className="absolute inset-0 z-30 flex flex-col bg-black/60">
+      {/* Scrollable content — nearly full screen */}
+      <div
+        className="absolute bottom-0 left-0 right-0 rounded-t-2xl overflow-y-auto"
+        style={{ top: "8%", background: "#111" }}
+      >
+        {/* Drag handle */}
+        <div className="flex justify-center pt-3 pb-2 sticky top-0 bg-[#111] z-10">
+          <div className="w-10 h-1 rounded-full bg-white/25" />
+        </div>
+
+        {/* Back arrow */}
+        <button onClick={onClose} className="text-white px-4 pb-2">
+          <ArrowLeft size={22} />
+        </button>
+
+        <div className="px-4 pb-8 flex flex-col gap-6">
+          {/* About */}
+          <div>
+            <h2 className="text-white text-2xl font-bold mb-1">About</h2>
+            <p className="text-white/80 text-sm leading-snug">{clip.title}</p>
+          </div>
+
+          {/* Creator */}
+          <div>
+            <h2 className="text-white text-2xl font-bold mb-3">Creator</h2>
+            <div className="bg-white/8 rounded-xl px-4 py-3 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-sm font-bold">?</span>
+              </div>
+              <div>
+                <p className="text-white font-semibold text-sm leading-snug">{clip.podcastName}</p>
+                <p className="text-white/50 text-xs mt-0.5">Podcast</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Watch Full Episode */}
+          <div>
+            <h2 className="text-white text-2xl font-bold mb-3">Watch Full Episode</h2>
+            <div className="bg-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70">
+              <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center flex-shrink-0">
+                <Youtube size={16} className="text-white" strokeWidth={2} />
+              </div>
+              <span className="text-white font-semibold text-sm">Watch on YouTube</span>
+            </div>
+          </div>
+
+          {/* Podcast */}
+          <div>
+            <h2 className="text-white text-2xl font-bold mb-3">Podcast</h2>
+            <div className="bg-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70">
+              <AlignJustify size={20} className="text-white/70" strokeWidth={1.5} />
+              <span className="text-white font-semibold text-sm">View Playlist</span>
+            </div>
+          </div>
+
+          {/* Tags */}
+          <div>
+            <h2 className="text-white text-2xl font-bold mb-3">Tags</h2>
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1.5 rounded-full text-white/80 text-sm border border-white/20"
+                  style={{ background: "rgba(255,255,255,0.06)" }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Likes / Views */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-white/8 rounded-xl py-4 text-center">
+              <p className="text-white text-2xl font-bold">{likes}</p>
+              <p className="text-white/50 text-xs mt-0.5">Likes</p>
+            </div>
+            <div className="bg-white/8 rounded-xl py-4 text-center">
+              <p className="text-white text-2xl font-bold">{clip.views}</p>
+              <p className="text-white/50 text-xs mt-0.5">Views</p>
+            </div>
+          </div>
+
+          {/* Dismiss hint */}
+          <p className="text-white/35 text-xs text-center">Swipe down to dismiss</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function DescriptionOverlay({ clip, onClose }: { clip: Clip; onClose: () => void }) {
   const text = longDescriptions[clip.id] || clip.description;
   const paragraphs = text.split("\n\n");
@@ -27,27 +124,19 @@ function DescriptionOverlay({ clip, onClose }: { clip: Clip; onClose: () => void
       className="absolute inset-0 z-30 flex flex-col justify-end"
       onClick={onClose}
     >
-      {/* Bottom half sheet */}
       <div
         className="h-1/2 rounded-t-2xl overflow-y-auto"
         style={{ background: "rgba(10,10,10,0.96)", backdropFilter: "blur(8px)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-1">
           <div className="w-9 h-1 rounded-full bg-white/25" />
         </div>
-
         <div className="px-4 pt-2 pb-8">
-          {/* Title */}
           <h2 className="text-white font-bold text-base leading-snug mb-3">{clip.title}</h2>
-
-          {/* Description paragraphs */}
           <div className="flex flex-col gap-3">
             {paragraphs.map((para, i) => (
-              <p key={i} className="text-white/80 text-sm leading-relaxed">
-                {para}
-              </p>
+              <p key={i} className="text-white/80 text-sm leading-relaxed">{para}</p>
             ))}
           </div>
         </div>
@@ -64,15 +153,43 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
   const [speedIdx, setSpeedIdx] = useState(2);
   const [playing, setPlaying] = useState(true);
   const [showDesc, setShowDesc] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
+
+  const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartY.current === null || touchStartX.current === null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartY.current = null;
+    touchStartX.current = null;
+
+    // Only handle vertical swipes (not horizontal, which are for clip navigation)
+    if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+
+    if (deltaY < -50 && !showAbout && !showDesc) {
+      setShowAbout(true);
+    } else if (deltaY > 50 && showAbout) {
+      setShowAbout(false);
+    }
+  }
 
   return (
     <div
       className="relative flex-shrink-0 snap-start"
       style={{ background: clip.thumbnailColor, width: "100%", height: "100%" }}
-      onClick={() => { if (!showDesc) setPlaying((p) => !p); }}
+      onClick={() => { if (!showDesc && !showAbout) setPlaying((p) => !p); }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Play icon overlay when paused */}
-      {!playing && !showDesc && (
+      {!playing && !showDesc && !showAbout && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-16 h-16 rounded-full bg-black/40 flex items-center justify-center">
             <Play size={28} className="text-white fill-white ml-1" />
@@ -80,13 +197,18 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
         </div>
       )}
 
-      {/* Description overlay */}
-      {showDesc && (
+      {/* About panel (swipe-up) */}
+      {showAbout && (
+        <AboutPanel clip={clip} likes={likes} onClose={() => setShowAbout(false)} />
+      )}
+
+      {/* Description overlay (three-dot) */}
+      {showDesc && !showAbout && (
         <DescriptionOverlay clip={clip} onClose={() => setShowDesc(false)} />
       )}
 
-      {/* Right-side actions — hidden when description is open */}
-      {!showDesc && (
+      {/* Right-side actions */}
+      {!showDesc && !showAbout && (
         <div className="absolute right-3 bottom-36 flex flex-col items-center gap-6 z-10">
           <button
             className="flex flex-col items-center gap-1"
@@ -146,7 +268,7 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
       )}
 
       {/* Bottom info */}
-      {!showDesc && (
+      {!showDesc && !showAbout && (
         <div className="absolute bottom-0 left-0 right-0 p-4 pb-20 bg-gradient-to-t from-black/80 to-transparent">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
