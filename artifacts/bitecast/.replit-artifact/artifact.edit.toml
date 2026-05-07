@@ -1,0 +1,31 @@
+kind = "mobile"
+previewPath = "/"
+title = "BiteCast"
+version = "1.0.0"
+id = "artifacts/bitecast"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21510
+
+[services.development]
+run = "pnpm --filter @workspace/bitecast run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/bitecast", "run", "build" ]
+publicDir = "artifacts/bitecast/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21510"
+BASE_PATH = "/"
