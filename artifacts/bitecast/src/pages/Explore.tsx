@@ -29,7 +29,7 @@ export default function Explore() {
         </div>
       </div>
 
-      {/* Categories — 2 per row, native 5:3 ratio so images show uncropped */}
+      {/* Categories — 2 per row, native ratio, no border */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
         <div className="grid grid-cols-2 gap-3">
@@ -37,13 +37,11 @@ export default function Explore() {
             <div
               key={id}
               className="w-full rounded-2xl overflow-hidden cursor-pointer active:opacity-80 transition-opacity"
-              style={{ border: "1px solid rgba(109,74,255,0.25)" }}
             >
               <img
                 src={image}
                 alt={id}
                 className="w-full h-auto block"
-                style={{ display: "block" }}
                 draggable={false}
               />
             </div>
