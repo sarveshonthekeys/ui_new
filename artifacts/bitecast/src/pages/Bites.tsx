@@ -111,7 +111,7 @@ export default function Bites() {
   const [current, setCurrent] = useState(0);
 
   return (
-    <div className="fixed inset-0 bg-black" style={{ maxWidth: 430, margin: "0 auto" }}>
+    <div className="absolute inset-0 bg-black">
       {/* Back button */}
       <button
         className="absolute top-4 left-4 z-50 text-white"

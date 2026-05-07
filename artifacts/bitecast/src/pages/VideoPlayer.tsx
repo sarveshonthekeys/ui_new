@@ -22,7 +22,7 @@ export default function VideoPlayer() {
   }
 
   return (
-    <div className="fixed inset-0 bg-black flex flex-col" style={{ maxWidth: 430, margin: "0 auto" }}>
+    <div className="absolute inset-0 bg-black flex flex-col">
       {/* Full-screen video area */}
       <div
         className="flex-1 relative flex items-center justify-center cursor-pointer"
