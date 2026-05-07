@@ -4,12 +4,12 @@ import { Search, Briefcase, Brain, Atom, Landmark, HeartPulse, BookOpen } from "
 const BASE = import.meta.env.BASE_URL;
 
 const categories = [
-  { id: "business", icon: Briefcase, image: `${BASE}cat-business.png` },
-  { id: "mindset",  icon: Brain,     image: `${BASE}cat-mindset.png`  },
-  { id: "science",  icon: Atom,      image: `${BASE}cat-science.png`  },
-  { id: "history",  icon: Landmark,  image: `${BASE}cat-history.png`  },
-  { id: "health",   icon: HeartPulse,image: `${BASE}cat-health.png`   },
-  { id: "philosophy",icon: BookOpen, image: `${BASE}cat-philosophy.png`},
+  { id: "business",   icon: Briefcase,  image: `${BASE}cat-business.png`,   pos: "center" },
+  { id: "mindset",    icon: Brain,      image: `${BASE}cat-mindset.png`,     pos: "center" },
+  { id: "science",    icon: Atom,       image: `${BASE}cat-science.png`,     pos: "center top" },
+  { id: "history",    icon: Landmark,   image: `${BASE}cat-history.png`,     pos: "center" },
+  { id: "health",     icon: HeartPulse, image: `${BASE}cat-health.png`,      pos: "center" },
+  { id: "philosophy", icon: BookOpen,   image: `${BASE}cat-philosophy.png`,  pos: "center" },
 ];
 
 export default function Explore() {
@@ -29,27 +29,35 @@ export default function Explore() {
         </div>
       </div>
 
-      {/* Categories — 2 per row, image only + icon, no name, no gradient */}
+      {/* Categories — 2 per row, square cards, image fills, icon top-left */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
         <div className="grid grid-cols-2 gap-3">
-          {categories.map(({ id, icon: Icon, image }) => (
+          {categories.map(({ id, icon: Icon, image, pos }) => (
             <div
               key={id}
               className="w-full rounded-2xl overflow-hidden relative cursor-pointer active:opacity-85 transition-opacity"
               style={{
-                aspectRatio: "4/3",
-                border: "1px solid rgba(109,74,255,0.35)",
-                background: "var(--bg-primary)",
+                aspectRatio: "1/1",
+                border: "1px solid rgba(109,74,255,0.3)",
+                background: "var(--bg-elevated)",
               }}
             >
               <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${image})` }}
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: pos,
+                }}
               />
-              {/* Icon only — top-left */}
               <div className="absolute top-3 left-3">
-                <Icon size={22} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center"
+                  style={{ background: "rgba(11,15,20,0.55)", backdropFilter: "blur(6px)" }}
+                >
+                  <Icon size={17} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+                </div>
               </div>
             </div>
           ))}

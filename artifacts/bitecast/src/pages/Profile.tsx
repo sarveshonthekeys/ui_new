@@ -4,7 +4,6 @@ import { ChevronRight, Activity, Settings, ShieldAlert, HelpCircle, LogOut, Flam
 const menuItems = [
   { icon: Activity, label: "Activity History", path: "/activity" },
   { icon: Settings, label: "Account Settings", path: "/account-settings" },
-  { icon: ShieldAlert, label: "Admin Panel", path: "/admin" },
   { icon: HelpCircle, label: "Help & Support", path: "/help" },
 ];
 
@@ -17,7 +16,6 @@ const stats = [
 export default function Profile() {
   return (
     <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
-      {/* Header */}
       <div
         className="px-4 pt-5 pb-3 sticky top-0 z-40"
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
@@ -65,15 +63,9 @@ export default function Profile() {
           <div
             key={label}
             className="flex-1 rounded-2xl p-3.5 text-center"
-            style={{
-              background: "var(--bg-elevated)",
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}
+            style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.06)" }}
           >
-            <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center mx-auto mb-2"
-              style={{ background: "rgba(109,74,255,0.15)" }}
-            >
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center mx-auto mb-2" style={{ background: "rgba(109,74,255,0.15)" }}>
               <Icon size={15} style={{ color: "var(--accent-purple)" }} strokeWidth={1.5} />
             </div>
             <p className="font-bold text-[18px]" style={{ color: "var(--text-primary)" }}>{value}</p>
@@ -84,6 +76,25 @@ export default function Profile() {
 
       {/* Menu */}
       <div className="mx-4 flex flex-col gap-2">
+        {/* Admin Panel — stands out at top */}
+        <Link href="/admin">
+          <div
+            className="flex items-center justify-between rounded-2xl px-4 py-3.5 cursor-pointer active:opacity-75 transition-opacity mb-1"
+            style={{
+              background: "rgba(109,74,255,0.12)",
+              border: "1px solid rgba(109,74,255,0.3)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(109,74,255,0.2)" }}>
+                <ShieldAlert size={16} style={{ color: "var(--accent-purple)" }} strokeWidth={1.5} />
+              </div>
+              <span className="font-semibold text-[14px]" style={{ color: "var(--accent-purple)" }}>Admin Panel</span>
+            </div>
+            <ChevronRight size={16} style={{ color: "var(--accent-purple)" }} strokeWidth={1.5} />
+          </div>
+        </Link>
+
         {menuItems.map(({ icon: Icon, label, path }) => (
           <Link key={path} href={path}>
             <div
@@ -91,10 +102,7 @@ export default function Profile() {
               style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
               <div className="flex items-center gap-3">
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(109,74,255,0.14)" }}
-                >
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(109,74,255,0.14)" }}>
                   <Icon size={16} style={{ color: "var(--accent-purple)" }} strokeWidth={1.5} />
                 </div>
                 <span className="font-medium text-[14px]" style={{ color: "var(--text-primary)" }}>{label}</span>

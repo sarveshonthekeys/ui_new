@@ -51,7 +51,7 @@ function AboutPanel({ clip, state, onClose }: { clip: Clip; state: ClipState; on
 
         <div className="px-5 pt-5 pb-12 flex flex-col gap-5">
 
-          {/* Creator + title block */}
+          {/* Creator */}
           <div className="flex items-center gap-3">
             <div
               className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
@@ -65,23 +65,10 @@ function AboutPanel({ clip, state, onClose }: { clip: Clip; state: ClipState; on
             </div>
           </div>
 
-          {/* Reel title */}
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-1.5" style={{ color: "var(--text-secondary)" }}>Reel</p>
-            <p className="font-bold text-[17px] leading-snug" style={{ color: "var(--text-primary)" }}>{clip.title}</p>
-          </div>
+          {/* Title */}
+          <p className="font-bold text-[17px] leading-snug" style={{ color: "var(--text-primary)" }}>{clip.title}</p>
 
-          {/* Description */}
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Description</p>
-            <div className="rounded-2xl px-4 py-3.5" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              {description.split("\n\n").map((para, i) => (
-                <p key={i} className={`text-[13px] leading-relaxed${i > 0 ? " mt-3" : ""}`} style={{ color: "var(--text-secondary)" }}>{para}</p>
-              ))}
-            </div>
-          </div>
-
-          {/* Watch + Playlist */}
+          {/* YouTube + Playlist — above description */}
           <div className="flex flex-col gap-2">
             <div className="rounded-2xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
               <div className="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center flex-shrink-0">
@@ -95,6 +82,13 @@ function AboutPanel({ clip, state, onClose }: { clip: Clip; state: ClipState; on
               </div>
               <span className="font-semibold text-[13px]" style={{ color: "var(--text-primary)" }}>View Playlist</span>
             </div>
+          </div>
+
+          {/* Description — continuous, no box, no label */}
+          <div>
+            {description.split("\n\n").map((para, i) => (
+              <p key={i} className={`text-[13px] leading-relaxed${i > 0 ? " mt-3" : ""}`} style={{ color: "var(--text-secondary)" }}>{para}</p>
+            ))}
           </div>
 
           {/* Hashtags */}
@@ -119,7 +113,7 @@ function AboutPanel({ clip, state, onClose }: { clip: Clip; state: ClipState; on
                 { label: "Likes",    value: state.likes,               icon: Heart,      color: "#f87171" },
                 { label: "Views",    value: clip.views,                icon: Eye,        color: "var(--accent-teal)" },
                 { label: "Saves",    value: state.saved ? clip.bookmarks + 1 : clip.bookmarks, icon: Bookmark, color: "var(--accent-purple)" },
-                { label: "Dislikes", value: state.disliked ? 1 : 0,   icon: ThumbsDown, color: "var(--text-secondary)" },
+                { label: "Dislikes", value: state.disliked ? 1 : 0,   icon: ThumbsDown, color: "#5b5478" },
               ].map(({ label, value, icon: Icon, color }) => (
                 <div key={label} className="rounded-2xl py-3.5 px-4 flex items-center gap-3" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
                   <Icon size={16} strokeWidth={1.5} style={{ color }} />
@@ -240,16 +234,18 @@ export default function Bites() {
         ))}
       </div>
 
-      {/* Back button */}
-      <button
-        className="absolute top-4 left-4 z-50 w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
-        style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
-        onClick={() => navigate("/")}
-      >
-        <ArrowLeft size={18} className="text-white" />
-      </button>
+      {/* Back button — hidden when about panel is open */}
+      {!showAbout && (
+        <button
+          className="absolute top-4 left-4 z-50 w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft size={18} className="text-white" />
+        </button>
+      )}
 
-      {/* Right-side action buttons */}
+      {/* Right-side action buttons — order: Heart, Dislike, Save, Volume, Speed */}
       {!showAbout && (
         <div className="absolute right-3.5 flex flex-col items-center gap-6 z-10" style={{ bottom: "96px" }}>
           <button
@@ -263,15 +259,15 @@ export default function Bites() {
             <span className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>{state.likes}</span>
           </button>
 
-          <button className="active:scale-90 transition-transform" onClick={() => update(currentClip.id, { saved: !state.saved })}>
-            <Bookmark size={28} strokeWidth={1.5} style={{ color: state.saved ? "var(--accent-purple)" : "rgba(255,255,255,0.92)" }} />
-          </button>
-
           <button
             className="active:scale-90 transition-transform"
             onClick={() => update(currentClip.id, { disliked: !state.disliked, liked: state.disliked ? state.liked : false })}
           >
-            <ThumbsDown size={28} strokeWidth={1.5} style={{ color: state.disliked ? "var(--accent-teal)" : "rgba(255,255,255,0.92)" }} />
+            <ThumbsDown size={28} strokeWidth={1.5} style={{ color: state.disliked ? "#5b5478" : "rgba(255,255,255,0.92)" }} />
+          </button>
+
+          <button className="active:scale-90 transition-transform" onClick={() => update(currentClip.id, { saved: !state.saved })}>
+            <Bookmark size={28} strokeWidth={1.5} style={{ color: state.saved ? "var(--accent-purple)" : "rgba(255,255,255,0.92)" }} />
           </button>
 
           <button className="active:scale-90 transition-transform" onClick={() => update(currentClip.id, { muted: !state.muted })}>
@@ -282,14 +278,12 @@ export default function Bites() {
           </button>
 
           <button className="active:scale-90 transition-transform" onClick={() => update(currentClip.id, { speedIdx: (state.speedIdx + 1) % speeds.length })}>
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.15)" }}>
-              <span className="text-white text-[13px] font-bold">{speeds[state.speedIdx]}x</span>
-            </div>
+            <span className="text-white text-[13px] font-bold">{speeds[state.speedIdx]}x</span>
           </button>
         </div>
       )}
 
-      {/* Bottom info overlay — bigger avatar + name, no hashtags, no three-dots */}
+      {/* Bottom info overlay */}
       {!showAbout && (
         <div
           className="absolute left-0 z-10"
@@ -310,7 +304,7 @@ export default function Bites() {
         </div>
       )}
 
-      {/* About panel (swipe up) */}
+      {/* About panel */}
       {showAbout && <AboutPanel clip={currentClip} state={state} onClose={() => setShowAbout(false)} />}
     </div>
   );

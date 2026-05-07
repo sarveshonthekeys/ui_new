@@ -16,11 +16,8 @@ export default function UploadClip() {
   const [form, setForm] = useState({
     podcastUrl: "",
     podcastTitle: "",
-    episodeTitle: "",
     authorHost: "",
     description: "",
-    coverImageUrl: "",
-    duration: "",
     hashtags: "",
   });
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
@@ -36,130 +33,97 @@ export default function UploadClip() {
   }
 
   return (
-    <div className="min-h-screen bg-black pb-24">
-      {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-6 pb-4 sticky top-0 bg-black z-40 border-b border-white/8">
-        <button onClick={() => navigate("/admin")} className="text-white text-sm font-medium flex items-center gap-1">
-          <ArrowLeft size={16} />
-          Back
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
+      <div
+        className="flex items-center gap-3 px-4 pt-5 pb-4 sticky top-0 z-40"
+        style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+      >
+        <button onClick={() => navigate("/admin")} className="active:opacity-60">
+          <ArrowLeft size={22} strokeWidth={1.5} style={{ color: "var(--text-primary)" }} />
         </button>
-        <h1 className="text-white text-xl font-bold">Upload Clip</h1>
+        <h1 className="text-[20px] font-bold" style={{ color: "var(--text-primary)" }}>Upload Podcast</h1>
       </div>
 
-      <div className="px-4 mt-4 flex flex-col gap-4">
-        {/* Podcast Information heading */}
-        <h2 className="text-white text-lg font-bold">Podcast Information</h2>
+      <div className="px-4 mt-5 flex flex-col gap-4">
+        <h2 className="text-[17px] font-bold" style={{ color: "var(--text-primary)" }}>Podcast Information</h2>
 
-        {/* Podcast URL */}
-        <div>
-          <label className="text-white font-semibold text-sm block mb-2">
-            Podcast URL <span className="text-red-400">*</span>
-          </label>
-          <input
-            type="url"
-            placeholder="https://example.com/podcast-video"
-            value={form.podcastUrl}
-            onChange={(e) => handleChange("podcastUrl", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
-          />
-          <p className="text-white/40 text-xs mt-1.5">Enter the direct URL to the full-length podcast video</p>
-        </div>
+        {/* Podcast URL — no label, no helper text */}
+        <input
+          type="url"
+          placeholder="https://example.com/podcast-video"
+          value={form.podcastUrl}
+          onChange={(e) => handleChange("podcastUrl", e.target.value)}
+          className="w-full rounded-2xl px-4 py-3.5 text-[14px] outline-none"
+          style={{
+            background: "var(--bg-elevated)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            color: "var(--text-primary)",
+          }}
+        />
 
         {/* Podcast Title */}
         <div>
-          <label className="text-white font-semibold text-sm block mb-2">
-            Podcast Title <span className="text-red-400">*</span>
+          <label className="block text-[13px] font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
+            Podcast Title <span style={{ color: "#f87171" }}>*</span>
           </label>
           <input
             type="text"
             placeholder="Name of the podcast"
             value={form.podcastTitle}
             onChange={(e) => handleChange("podcastTitle", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
-          />
-        </div>
-
-        {/* Episode Title */}
-        <div>
-          <label className="text-white font-semibold text-sm block mb-2">Episode Title</label>
-          <input
-            type="text"
-            placeholder="Episode name or number (optional)"
-            value={form.episodeTitle}
-            onChange={(e) => handleChange("episodeTitle", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
+            className="w-full rounded-2xl px-4 py-3.5 text-[14px] outline-none"
+            style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-primary)" }}
           />
         </div>
 
         {/* Author / Host */}
         <div>
-          <label className="text-white font-semibold text-sm block mb-2">
-            Author/Host <span className="text-red-400">*</span>
+          <label className="block text-[13px] font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
+            Author / Host <span style={{ color: "#f87171" }}>*</span>
           </label>
           <input
             type="text"
             placeholder="Podcast host or creator name"
             value={form.authorHost}
             onChange={(e) => handleChange("authorHost", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
+            className="w-full rounded-2xl px-4 py-3.5 text-[14px] outline-none"
+            style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-primary)" }}
           />
         </div>
 
         {/* Description */}
         <div>
-          <label className="text-white font-semibold text-sm block mb-2">
-            Description <span className="text-red-400">*</span>
+          <label className="block text-[13px] font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>
+            Description <span style={{ color: "#f87171" }}>*</span>
           </label>
           <textarea
             placeholder="Brief description of the podcast episode"
             value={form.description}
             onChange={(e) => handleChange("description", e.target.value)}
             rows={4}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50 resize-none"
-          />
-        </div>
-
-        {/* Cover Image URL */}
-        <div>
-          <label className="text-white font-semibold text-sm block mb-2">Cover Image URL</label>
-          <input
-            type="url"
-            placeholder="https://example.com/cover.jpg (optional)"
-            value={form.coverImageUrl}
-            onChange={(e) => handleChange("coverImageUrl", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
-          />
-        </div>
-
-        {/* Duration */}
-        <div>
-          <label className="text-white font-semibold text-sm block mb-2">Duration (minutes)</label>
-          <input
-            type="number"
-            placeholder="e.g., 60 (optional)"
-            value={form.duration}
-            onChange={(e) => handleChange("duration", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
+            className="w-full rounded-2xl px-4 py-3.5 text-[14px] outline-none resize-none"
+            style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-primary)" }}
           />
         </div>
 
         {/* Hashtags */}
         <div>
-          <label className="text-white font-semibold text-sm block mb-2">Hashtags</label>
+          <label className="block text-[13px] font-semibold mb-2" style={{ color: "var(--text-secondary)" }}>Hashtags</label>
           <input
             type="text"
             placeholder="#motivation #business #productivity"
             value={form.hashtags}
             onChange={(e) => handleChange("hashtags", e.target.value)}
-            className="w-full bg-white/8 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 text-sm outline-none focus:border-amber-500/50"
+            className="w-full rounded-2xl px-4 py-3.5 text-[14px] outline-none"
+            style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-primary)" }}
           />
-          <p className="text-white/40 text-xs mt-1.5">Enter hashtags separated by spaces or commas. Used for personalized recommendations.</p>
+          <p className="text-[11px] mt-1.5" style={{ color: "var(--text-secondary)" }}>Separate hashtags with spaces or commas.</p>
         </div>
 
         {/* Genres */}
         <div>
-          <label className="text-white font-semibold text-sm block mb-3">
-            Genres <span className="text-red-400">*</span>
+          <label className="block text-[13px] font-semibold mb-3" style={{ color: "var(--text-secondary)" }}>
+            Genres <span style={{ color: "#f87171" }}>*</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {GENRES.map((genre) => {
@@ -168,11 +132,11 @@ export default function UploadClip() {
                 <button
                   key={genre}
                   onClick={() => toggleGenre(genre)}
-                  className="px-4 py-2 rounded-full text-sm font-medium border transition-colors"
+                  className="px-4 py-2 rounded-full text-[13px] font-medium transition-colors"
                   style={{
-                    background: active ? "rgba(255,255,255,0.15)" : "transparent",
-                    borderColor: active ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.25)",
-                    color: "#fff",
+                    background: active ? "rgba(109,74,255,0.2)" : "var(--bg-elevated)",
+                    border: active ? "1px solid rgba(109,74,255,0.5)" : "1px solid rgba(255,255,255,0.08)",
+                    color: active ? "var(--accent-purple)" : "var(--text-secondary)",
                   }}
                 >
                   {genre}
@@ -182,21 +146,25 @@ export default function UploadClip() {
           </div>
         </div>
 
-        {/* Buttons */}
+        {/* Action buttons */}
         <div className="grid grid-cols-2 gap-3 mt-2">
           <button
             onClick={() => navigate("/admin")}
-            className="bg-white/10 text-white font-bold py-4 rounded-xl text-sm active:opacity-80"
+            className="font-bold py-4 rounded-2xl text-[14px] active:opacity-80"
+            style={{ background: "var(--bg-elevated)", color: "var(--text-secondary)", border: "1px solid rgba(255,255,255,0.07)" }}
           >
             Cancel
           </button>
-          <button className="bg-white text-black font-bold py-4 rounded-xl text-sm active:opacity-80">
+          <button
+            className="font-bold py-4 rounded-2xl text-[14px] active:opacity-80"
+            style={{ background: "var(--accent-purple)", color: "#fff" }}
+          >
             Submit Podcast
           </button>
         </div>
 
-        <p className="text-white/30 text-xs text-center pb-2">
-          * Required fields. Vizard API will automatically clip the podcast and create a playlist.
+        <p className="text-center text-[11px] pb-2" style={{ color: "var(--text-secondary)" }}>
+          * Required fields. Vizard API will automatically clip the podcast.
         </p>
       </div>
     </div>

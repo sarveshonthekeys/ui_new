@@ -14,15 +14,16 @@ export default function Library() {
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         <h1 className="text-[20px] font-bold mb-3" style={{ color: "var(--text-primary)" }}>Library</h1>
-        <div className="flex gap-2 p-1 rounded-2xl" style={{ background: "var(--bg-elevated)" }}>
+        <div className="flex gap-2">
           {(["liked", "saved"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-[13px] font-semibold transition-all duration-200"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-semibold transition-all duration-200"
               style={{
-                background: tab === t ? "var(--accent-purple)" : "transparent",
+                background: tab === t ? "#3D2A8A" : "var(--bg-elevated)",
                 color: tab === t ? "#fff" : "var(--text-secondary)",
+                border: tab === t ? "1px solid rgba(109,74,255,0.35)" : "1px solid rgba(255,255,255,0.06)",
               }}
             >
               {t === "liked" ? <Heart size={14} strokeWidth={2} /> : <Bookmark size={14} strokeWidth={2} />}

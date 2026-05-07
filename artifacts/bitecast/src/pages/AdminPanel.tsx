@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, ChevronRight, Upload, Pencil, Film, BarChart3, Home } from "lucide-react";
+import { ChevronRight, Upload, Film, BarChart3, Pencil } from "lucide-react";
 import { quickStats } from "@/data/mockData";
 
 export default function AdminPanel() {
@@ -12,7 +12,7 @@ export default function AdminPanel() {
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         <button onClick={() => navigate("/profile")} className="active:opacity-60">
-          <ArrowLeft size={22} strokeWidth={1.5} style={{ color: "var(--text-primary)" }} />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--text-primary)" }}><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
         </button>
         <h1 className="text-[20px] font-bold" style={{ color: "var(--text-primary)" }}>Admin Panel</h1>
       </div>
@@ -30,62 +30,58 @@ export default function AdminPanel() {
 
         <p className="text-[11px] font-semibold uppercase tracking-widest mt-2 mb-1" style={{ color: "var(--text-secondary)" }}>Content Management</p>
 
-        <Link href="/">
-          <div className="rounded-2xl px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-80" style={{ background: "rgba(109,74,255,0.1)", border: "1px solid rgba(109,74,255,0.25)" }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.18)" }}>
-              <Home size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Go to Main App</p>
-              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>View feed, explore clips, and manage your profile</p>
-            </div>
-            <ChevronRight size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
-          </div>
-        </Link>
-
-        {[
-          { icon: Upload, label: "Upload Podcast", desc: "Upload full-length podcasts for automatic clipping", href: "/upload-clip" },
-          { icon: Pencil, label: "Manage Clips", desc: "Edit, publish, or delete existing clips", href: null },
-        ].map(({ icon: Icon, label, desc, href }) => {
-          const inner = (
-            <div className="rounded-2xl px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-75" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.12)" }}>
-                <Icon size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+        {/* Upload Podcast + Upload Clips side by side */}
+        <div className="grid grid-cols-2 gap-3">
+          <Link href="/upload-clip">
+            <div className="rounded-2xl px-4 py-4 flex flex-col gap-3 cursor-pointer active:opacity-75 h-full" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(109,74,255,0.12)" }}>
+                <Upload size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>{label}</p>
-                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>{desc}</p>
+              <div>
+                <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Upload Podcast</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Upload full-length podcasts</p>
               </div>
-              <ChevronRight size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
             </div>
-          );
-          return href ? <Link key={label} href={href}>{inner}</Link> : <div key={label}>{inner}</div>;
-        })}
+          </Link>
 
-        <Link href="/upload-clip-demo">
-          <div className="rounded-2xl px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-80" style={{ background: "rgba(47,163,154,0.08)", border: "1px dashed rgba(47,163,154,0.35)" }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(47,163,154,0.15)" }}>
-              <Film size={20} strokeWidth={1.5} style={{ color: "var(--accent-teal)" }} />
+          <Link href="/upload-clip-demo">
+            <div className="rounded-2xl px-4 py-4 flex flex-col gap-3 cursor-pointer active:opacity-75 h-full" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(109,74,255,0.12)" }}>
+                <Film size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+              </div>
+              <div>
+                <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Upload Clips</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Upload video clips manually</p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Upload Clips (Demo)</p>
-              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Manually upload video clips from local files</p>
-            </div>
-            <ChevronRight size={18} strokeWidth={1.5} style={{ color: "var(--accent-teal)" }} />
-          </div>
-        </Link>
+          </Link>
+        </div>
 
         <p className="text-[11px] font-semibold uppercase tracking-widest mt-3 mb-1" style={{ color: "var(--text-secondary)" }}>Insights</p>
 
-        <div className="rounded-2xl px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-75" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.12)" }}>
-            <BarChart3 size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+        {/* Analytics (contains Manage Clips) */}
+        <div className="rounded-2xl overflow-hidden" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-75">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.12)" }}>
+              <BarChart3 size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Analytics</p>
+              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>View engagement metrics and performance data</p>
+            </div>
+            <ChevronRight size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Analytics</p>
-            <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>View engagement metrics and performance data</p>
+          <div style={{ height: "1px", background: "rgba(255,255,255,0.05)" }} />
+          <div className="px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-75">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.12)" }}>
+              <Pencil size={20} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-[14px]" style={{ color: "var(--text-primary)" }}>Manage Clips</p>
+              <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Edit, publish, or delete existing clips</p>
+            </div>
+            <ChevronRight size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
           </div>
-          <ChevronRight size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
         </div>
 
         <p className="text-[11px] font-semibold uppercase tracking-widest mt-3 mb-1" style={{ color: "var(--text-secondary)" }}>Quick Stats</p>
