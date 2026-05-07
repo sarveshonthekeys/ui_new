@@ -1,5 +1,46 @@
-import { categories, playlists } from "@/data/mockData";
-import { Search } from "lucide-react";
+import { playlists } from "@/data/mockData";
+import { Search, Briefcase, Brain, Atom, Landmark, HeartPulse, BookOpen } from "lucide-react";
+
+const BASE = import.meta.env.BASE_URL;
+
+const categories = [
+  {
+    id: "business",
+    name: "Business & Finance",
+    icon: Briefcase,
+    image: `${BASE}cat-business.png`,
+  },
+  {
+    id: "mindset",
+    name: "Motivation & Mindset",
+    icon: Brain,
+    image: `${BASE}cat-mindset.png`,
+  },
+  {
+    id: "science",
+    name: "Science & Tech",
+    icon: Atom,
+    image: `${BASE}cat-science.png`,
+  },
+  {
+    id: "history",
+    name: "History & Culture",
+    icon: Landmark,
+    image: `${BASE}cat-history.png`,
+  },
+  {
+    id: "health",
+    name: "Health & Fitness",
+    icon: HeartPulse,
+    image: `${BASE}cat-health.png`,
+  },
+  {
+    id: "philosophy",
+    name: "Philosophy",
+    icon: BookOpen,
+    image: `${BASE}cat-philosophy.png`,
+  },
+];
 
 export default function Explore() {
   return (
@@ -13,29 +54,47 @@ export default function Explore() {
           className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl"
           style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <Search size={16} style={{ color: "var(--text-secondary)" }} strokeWidth={1.5} />
+          <Search size={16} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
           <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>Search topics, creators…</span>
         </div>
       </div>
 
-      {/* Categories */}
+      {/* Categories — full-width landscape cards */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
-        <div className="grid grid-cols-2 gap-3">
-          {categories.map((cat) => (
+        <div className="flex flex-col gap-3">
+          {categories.map(({ id, name, icon: Icon, image }) => (
             <div
-              key={cat.id}
-              className="rounded-2xl px-4 py-3.5 cursor-pointer active:opacity-75 transition-opacity"
-              style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}
+              key={id}
+              className="w-full rounded-2xl overflow-hidden relative cursor-pointer active:opacity-85 transition-opacity"
+              style={{
+                aspectRatio: "16/7",
+                border: "1px solid rgba(109,74,255,0.35)",
+                background: "var(--bg-primary)",
+              }}
             >
-              <h3 className="font-semibold text-[13px] leading-snug mb-1" style={{ color: "var(--text-primary)" }}>{cat.name}</h3>
-              <p className="text-[11px] leading-snug" style={{ color: "var(--text-secondary)" }}>{cat.description}</p>
+              {/* Right-side image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${image})` }}
+              />
+              {/* Gradient: dark on left, transparent on right */}
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(to right, var(--bg-primary) 38%, rgba(11,15,20,0.7) 58%, transparent 80%)" }}
+              />
+
+              {/* Content — icon top-left, name bottom-left */}
+              <div className="absolute inset-0 flex flex-col justify-between p-4">
+                <Icon size={28} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+                <h3 className="font-bold text-[18px] leading-tight text-white">{name}</h3>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Curated Playlists — count top-right, title bottom-inside, no play button, no text outside */}
+      {/* Curated Playlists */}
       <div className="px-4 mt-7">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Curated Playlists</p>
         <div className="grid grid-cols-2 gap-3">
@@ -48,7 +107,6 @@ export default function Explore() {
               <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.88) 0%, rgba(11,15,20,0.2) 50%, transparent 75%)" }} />
               <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,74,255,0.1) 0%, transparent 60%)" }} />
 
-              {/* Clip count — top right */}
               <div
                 className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[11px] font-bold"
                 style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", color: "rgba(255,255,255,0.9)" }}
@@ -56,9 +114,8 @@ export default function Explore() {
                 {pl.clipCount}
               </div>
 
-              {/* Title — bottom inside */}
               <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
-                <p className="font-semibold text-[12px] leading-snug line-clamp-2" style={{ color: "var(--text-primary)" }}>{pl.title}</p>
+                <p className="font-semibold text-[12px] leading-snug line-clamp-2 text-white">{pl.title}</p>
               </div>
             </div>
           ))}
