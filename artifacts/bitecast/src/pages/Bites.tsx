@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { ArrowLeft, Heart, Bookmark, ThumbsDown, Volume2, VolumeX, MoreVertical, Play, Youtube, AlignJustify } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
 import { useLocation } from "wouter";
@@ -22,30 +22,25 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
   const tags = clip.hashtags.map((h) => h.replace("#", ""));
 
   return (
-    <div className="absolute inset-0 z-30 flex flex-col bg-black/60">
-      {/* Scrollable content — nearly full screen */}
+    <div className="absolute inset-0 z-40 flex flex-col bg-black/60">
       <div
         className="absolute bottom-0 left-0 right-0 rounded-t-2xl overflow-y-auto"
         style={{ top: "8%", background: "#111" }}
       >
-        {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-2 sticky top-0 bg-[#111] z-10">
           <div className="w-10 h-1 rounded-full bg-white/25" />
         </div>
 
-        {/* Back arrow */}
         <button onClick={onClose} className="text-white px-4 pb-2">
           <ArrowLeft size={22} />
         </button>
 
         <div className="px-4 pb-8 flex flex-col gap-6">
-          {/* About */}
           <div>
             <h2 className="text-white text-2xl font-bold mb-1">About</h2>
             <p className="text-white/80 text-sm leading-snug">{clip.title}</p>
           </div>
 
-          {/* Creator */}
           <div>
             <h2 className="text-white text-2xl font-bold mb-3">Creator</h2>
             <div className="bg-white/8 rounded-xl px-4 py-3 flex items-center gap-3">
@@ -59,7 +54,6 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
             </div>
           </div>
 
-          {/* Watch Full Episode */}
           <div>
             <h2 className="text-white text-2xl font-bold mb-3">Watch Full Episode</h2>
             <div className="bg-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70">
@@ -70,7 +64,6 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
             </div>
           </div>
 
-          {/* Podcast */}
           <div>
             <h2 className="text-white text-2xl font-bold mb-3">Podcast</h2>
             <div className="bg-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3 cursor-pointer active:opacity-70">
@@ -79,7 +72,6 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
             </div>
           </div>
 
-          {/* Tags */}
           <div>
             <h2 className="text-white text-2xl font-bold mb-3">Tags</h2>
             <div className="flex flex-wrap gap-2">
@@ -95,7 +87,6 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
             </div>
           </div>
 
-          {/* Likes / Views */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white/8 rounded-xl py-4 text-center">
               <p className="text-white text-2xl font-bold">{likes}</p>
@@ -107,7 +98,6 @@ function AboutPanel({ clip, likes, onClose }: { clip: Clip; likes: number; onClo
             </div>
           </div>
 
-          {/* Dismiss hint */}
           <p className="text-white/35 text-xs text-center">Swipe down to dismiss</p>
         </div>
       </div>
@@ -145,7 +135,7 @@ function DescriptionOverlay({ clip, onClose }: { clip: Clip; onClose: () => void
   );
 }
 
-function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
+function BitesCard({ clip, showAbout }: { clip: Clip; showAbout: boolean }) {
   const [liked, setLiked] = useState(clip.liked);
   const [likes, setLikes] = useState(clip.likes);
   const [saved, setSaved] = useState(clip.saved);
@@ -153,42 +143,13 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
   const [speedIdx, setSpeedIdx] = useState(2);
   const [playing, setPlaying] = useState(true);
   const [showDesc, setShowDesc] = useState(false);
-  const [showAbout, setShowAbout] = useState(false);
-
-  const touchStartY = useRef<number | null>(null);
-  const touchStartX = useRef<number | null>(null);
-
-  function handleTouchStart(e: React.TouchEvent) {
-    touchStartY.current = e.touches[0].clientY;
-    touchStartX.current = e.touches[0].clientX;
-  }
-
-  function handleTouchEnd(e: React.TouchEvent) {
-    if (touchStartY.current === null || touchStartX.current === null) return;
-    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
-    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
-    touchStartY.current = null;
-    touchStartX.current = null;
-
-    // Only handle vertical swipes (not horizontal, which are for clip navigation)
-    if (Math.abs(deltaX) > Math.abs(deltaY)) return;
-
-    if (deltaY < -50 && !showAbout && !showDesc) {
-      setShowAbout(true);
-    } else if (deltaY > 50 && showAbout) {
-      setShowAbout(false);
-    }
-  }
 
   return (
     <div
       className="relative flex-shrink-0 snap-start"
       style={{ background: clip.thumbnailColor, width: "100%", height: "100%" }}
       onClick={() => { if (!showDesc && !showAbout) setPlaying((p) => !p); }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
-      {/* Play icon overlay when paused */}
       {!playing && !showDesc && !showAbout && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-16 h-16 rounded-full bg-black/40 flex items-center justify-center">
@@ -197,17 +158,10 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
         </div>
       )}
 
-      {/* About panel (swipe-up) */}
-      {showAbout && (
-        <AboutPanel clip={clip} likes={likes} onClose={() => setShowAbout(false)} />
-      )}
-
-      {/* Description overlay (three-dot) */}
-      {showDesc && !showAbout && (
+      {showDesc && (
         <DescriptionOverlay clip={clip} onClose={() => setShowDesc(false)} />
       )}
 
-      {/* Right-side actions */}
       {!showDesc && !showAbout && (
         <div className="absolute right-3 bottom-36 flex flex-col items-center gap-6 z-10">
           <button
@@ -267,7 +221,6 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
         </div>
       )}
 
-      {/* Bottom info */}
       {!showDesc && !showAbout && (
         <div className="absolute bottom-0 left-0 right-0 p-4 pb-20 bg-gradient-to-t from-black/80 to-transparent">
           <div className="flex items-center gap-2 mb-1">
@@ -294,10 +247,66 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
 export default function Bites() {
   const [, navigate] = useLocation();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);
+  const [showAbout, setShowAbout] = useState(false);
+
+  // Use a ref so the wheel/touch handlers always see fresh state
+  const showAboutRef = useRef(showAbout);
+  useEffect(() => { showAboutRef.current = showAbout; }, [showAbout]);
+
+  // Non-passive wheel listener so we can preventDefault and stop horizontal scroll
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    function onWheel(e: WheelEvent) {
+      // Ignore mostly-horizontal wheel moves (trackpad horizontal scroll)
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+      if (e.deltaY < -20 && !showAboutRef.current) {
+        e.preventDefault();
+        setShowAbout(true);
+      } else if (e.deltaY > 20 && showAboutRef.current) {
+        e.preventDefault();
+        setShowAbout(false);
+      }
+    }
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  // Touch gesture detection
+  const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartY.current === null || touchStartX.current === null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartY.current = null;
+    touchStartX.current = null;
+    // Ignore horizontal swipes
+    if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+    if (deltaY < -50 && !showAboutRef.current) setShowAbout(true);
+    if (deltaY > 50 && showAboutRef.current) setShowAbout(false);
+  }, []);
+
+  const currentClip = clips[current];
 
   return (
-    <div className="absolute inset-0 bg-black">
+    <div
+      ref={containerRef}
+      className="absolute inset-0 bg-black"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Back button */}
       <button
         className="absolute top-4 left-4 z-50 text-white"
@@ -317,9 +326,22 @@ export default function Bites() {
         }}
       >
         {clips.map((clip, i) => (
-          <BitesCard key={clip.id} clip={clip} active={i === current} />
+          <BitesCard
+            key={clip.id}
+            clip={clip}
+            showAbout={showAbout && i === current}
+          />
         ))}
       </div>
+
+      {/* About panel rendered above everything */}
+      {showAbout && currentClip && (
+        <AboutPanel
+          clip={currentClip}
+          likes={currentClip.likes}
+          onClose={() => setShowAbout(false)}
+        />
+      )}
     </div>
   );
 }
