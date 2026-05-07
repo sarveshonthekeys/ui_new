@@ -15,8 +15,8 @@ function BitesCard({ clip, active }: { clip: Clip; active: boolean }) {
 
   return (
     <div
-      className="relative w-full h-full flex-shrink-0 snap-start"
-      style={{ background: clip.thumbnailColor, minHeight: "100svh" }}
+      className="relative flex-shrink-0 snap-start"
+      style={{ background: clip.thumbnailColor, width: "100%", height: "100%" }}
       onClick={() => setPlaying((p) => !p)}
     >
       {/* Play icon overlay when paused */}
@@ -120,13 +120,13 @@ export default function Bites() {
         <ArrowLeft size={24} />
       </button>
 
-      {/* Vertical snap scroll */}
+      {/* Horizontal snap scroll */}
       <div
         ref={scrollRef}
-        className="h-full overflow-y-scroll snap-y snap-mandatory"
+        className="w-full h-full flex overflow-x-scroll snap-x snap-mandatory"
         onScroll={(e) => {
           const el = e.currentTarget;
-          const idx = Math.round(el.scrollTop / el.clientHeight);
+          const idx = Math.round(el.scrollLeft / el.clientWidth);
           setCurrent(idx);
         }}
       >
