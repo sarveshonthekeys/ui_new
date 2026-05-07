@@ -6,47 +6,47 @@ export default function ActivityHistory() {
   const [, navigate] = useLocation();
 
   return (
-    <div className="min-h-screen bg-black pb-24">
-      {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-6 pb-4 sticky top-0 bg-black z-40 border-b border-white/8">
-        <button onClick={() => navigate("/profile")} className="text-white">
-          <ArrowLeft size={22} />
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
+      <div
+        className="flex items-center gap-3 px-4 pt-5 pb-4 sticky top-0 z-40"
+        style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+      >
+        <button onClick={() => navigate("/profile")} className="active:opacity-60">
+          <ArrowLeft size={22} strokeWidth={1.5} style={{ color: "var(--text-primary)" }} />
         </button>
-        <h1 className="text-white text-xl font-bold">Activity History</h1>
+        <h1 className="text-[20px] font-bold" style={{ color: "var(--text-primary)" }}>Activity History</h1>
       </div>
 
-      <div className="px-4 mt-4">
-        {/* Statistics */}
-        <h2 className="text-white font-bold text-lg mb-3">Statistics</h2>
-        <div className="grid grid-cols-2 gap-3 mb-6">
+      <div className="px-4 mt-5">
+        <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Statistics</p>
+        <div className="grid grid-cols-2 gap-3 mb-7">
           {[
             { label: "Clips Watched", value: "38" },
             { label: "Hours", value: "0.6" },
             { label: "Podcasts", value: "0" },
             { label: "Day Streak", value: "1" },
           ].map(({ label, value }) => (
-            <div
-              key={label}
-              className="bg-white/5 border border-white/8 rounded-xl p-4 text-center"
-            >
-              <p className="text-white font-bold text-2xl">{value}</p>
-              <p className="text-white/50 text-xs mt-1">{label}</p>
+            <div key={label} className="rounded-2xl p-4 text-center" style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <p className="font-bold text-[24px]" style={{ color: "var(--text-primary)" }}>{value}</p>
+              <p className="text-[11px] mt-1" style={{ color: "var(--text-secondary)" }}>{label}</p>
             </div>
           ))}
         </div>
 
-        {/* Recent Activity */}
-        <h2 className="text-white font-bold text-lg mb-3">Recent Activity</h2>
+        <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Recent Activity</p>
         <div className="flex flex-col gap-2">
           {activityHistory.map((item) => (
             <div
               key={item.id}
-              className="bg-white/5 border border-white/8 rounded-xl px-4 py-3.5 flex items-center gap-3"
+              className="rounded-2xl px-4 py-3.5 flex items-center gap-3"
+              style={{ background: "var(--bg-elevated)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
-              <PlayCircle size={20} className="text-white/50 flex-shrink-0" strokeWidth={1.5} />
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(109,74,255,0.12)" }}>
+                <PlayCircle size={16} strokeWidth={1.5} style={{ color: "var(--accent-purple)" }} />
+              </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-medium truncate">{item.clipTitle}</p>
-                <p className="text-white/40 text-xs mt-0.5">Watched • {item.timeAgo}</p>
+                <p className="text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{item.clipTitle}</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Watched · {item.timeAgo}</p>
               </div>
             </div>
           ))}

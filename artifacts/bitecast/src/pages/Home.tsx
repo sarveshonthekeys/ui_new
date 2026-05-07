@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Bell, Heart, Eye, Bookmark } from "lucide-react";
 import { clips, type Clip } from "@/data/mockData";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 
-function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, field: "liked" | "saved", val: boolean) => void }) {
+function VideoCard({ clip, index, onUpdate }: { clip: Clip; index: number; onUpdate: (id: string, field: "liked" | "saved", val: boolean) => void }) {
+  const [, navigate] = useLocation();
+
   return (
     <div className="mb-5 px-4">
       <div className="flex items-center gap-2 mb-2">
@@ -20,14 +22,13 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
         </span>
       </div>
 
-      <Link href={`/player/${clip.id}`}>
-        <div
-          className="w-full rounded-2xl relative overflow-hidden cursor-pointer"
-          style={{ background: clip.thumbnailColor, aspectRatio: "9/12" }}
-        >
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.5) 0%, transparent 40%)" }} />
-        </div>
-      </Link>
+      <div
+        className="w-full rounded-2xl relative overflow-hidden cursor-pointer"
+        style={{ background: clip.thumbnailColor, aspectRatio: "9/12" }}
+        onClick={() => navigate(`/bites?clip=${clip.id}`)}
+      >
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.5) 0%, transparent 40%)" }} />
+      </div>
 
       <p className="text-[15px] font-semibold leading-snug mt-2.5 mb-2" style={{ color: "var(--text-primary)" }}>
         {clip.title}
@@ -93,8 +94,8 @@ export default function Home() {
       </div>
 
       <div className="pt-4">
-        {clipList.map((clip) => (
-          <VideoCard key={clip.id} clip={clip} onUpdate={handleUpdate} />
+        {clipList.map((clip, index) => (
+          <VideoCard key={clip.id} clip={clip} index={index} onUpdate={handleUpdate} />
         ))}
       </div>
     </div>
