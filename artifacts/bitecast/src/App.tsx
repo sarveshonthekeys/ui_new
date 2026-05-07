@@ -27,7 +27,10 @@ function AppShell() {
       {/* 9:16 phone frame — width driven by viewport height so ratio is always maintained */}
       <div
         className="relative bg-black overflow-hidden"
-        style={{ width: "min(430px, 56.25svh)", height: "100svh" }}
+        style={{
+          width: "min(430px, 56.25svh)",
+          height: "calc(min(430px, 56.25svh) / 9 * 16)",
+        }}
       >
         {/* Scrollable content area */}
         <div className="h-full overflow-y-auto overflow-x-hidden">
