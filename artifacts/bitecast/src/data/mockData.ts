@@ -27,6 +27,7 @@ export interface Category {
   name: string;
   description: string;
   color: string;
+  iconColor: string;
 }
 
 export const clips: Clip[] = [
@@ -64,7 +65,7 @@ export const clips: Clip[] = [
     id: "3",
     title: "The 'My Way or the Highway' dogma",
     author: "Raj Shamani",
-    podcastName: "Raj Shamani Podcast",
+    podcastName: "Indian History shocking facts you never knew",
     thumbnailColor: "#181818",
     likes: 0,
     views: 0,
@@ -185,58 +186,104 @@ export const clips: Clip[] = [
 export const categories: Category[] = [
   {
     id: "1",
-    name: "Health & Fitness",
-    description: "Physical health, fitness tips, and wellness strategies",
-    color: "#2a1a1a",
+    name: "Business & Finance",
+    description: "Entrepreneurship, investing, and business strategy",
+    color: "#0f1a0a",
+    iconColor: "#4ade80",
   },
   {
     id: "2",
-    name: "Philosophy",
-    description: "Deep thinking, ethics, and philosophical discussions",
-    color: "#1a1a2a",
+    name: "Motivation & Mindset",
+    description: "Mindset shifts, self-improvement, and peak performance",
+    color: "#1a0f00",
+    iconColor: "#fb923c",
   },
   {
     id: "3",
-    name: "Business",
-    description: "Entrepreneurship, investing, and business strategy",
-    color: "#1a2a1a",
+    name: "Science & Tech",
+    description: "Scientific discoveries, and innovations",
+    color: "#00101a",
+    iconColor: "#38bdf8",
   },
   {
     id: "4",
-    name: "Science",
-    description: "Physics, biology, and scientific discoveries",
-    color: "#2a2a1a",
+    name: "History, Culture & Daily Affairs",
+    description: "Insights, and current affairs",
+    color: "#1a001a",
+    iconColor: "#c084fc",
+  },
+  {
+    id: "5",
+    name: "Health & Fitness",
+    description: "Physical health, fitness tips, and wellness strategies",
+    color: "#1a0000",
+    iconColor: "#f87171",
+  },
+  {
+    id: "6",
+    name: "Philosophy",
+    description: "Deep thinking, ethics, and philosophical discussions",
+    color: "#0a0a1a",
+    iconColor: "#a78bfa",
   },
 ];
 
 export const playlists: Playlist[] = [
   {
     id: "1",
-    title: "1 hour with a Billionaire",
+    title: "Socialism",
     clipCount: 10,
     thumbnailColor: "#1a1a1a",
     author: "Various",
   },
   {
     id: "2",
-    title: "37 Minutes",
+    title: "Stoicism",
     clipCount: 10,
     thumbnailColor: "#111111",
     author: "Various",
   },
   {
     id: "3",
-    title: "Big Investment Opportunities",
-    clipCount: 8,
-    thumbnailColor: "#0f1a0f",
+    title: "The Future Mark Zuckerberg is Tryin...",
+    clipCount: 9,
+    thumbnailColor: "#0f1a1a",
     author: "Various",
   },
   {
     id: "4",
-    title: "David Goggins",
-    clipCount: 35,
+    title: "The Secret to Writing a Business ...",
+    clipCount: 10,
     thumbnailColor: "#1a0f0f",
-    author: "David Goggins",
+    author: "Various",
+  },
+  {
+    id: "5",
+    title: "The Truth About Debt",
+    clipCount: 10,
+    thumbnailColor: "#0a0a14",
+    author: "Various",
+  },
+  {
+    id: "6",
+    title: "Truth about making money in India",
+    clipCount: 40,
+    thumbnailColor: "#14100a",
+    author: "Various",
+  },
+  {
+    id: "7",
+    title: "Tyson and Dawkins",
+    clipCount: 10,
+    thumbnailColor: "#0a140a",
+    author: "Various",
+  },
+  {
+    id: "8",
+    title: "What bothers physicists about bl...",
+    clipCount: 40,
+    thumbnailColor: "#0a0a0a",
+    author: "Various",
   },
 ];
 

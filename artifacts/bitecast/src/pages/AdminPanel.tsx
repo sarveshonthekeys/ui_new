@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, ChevronRight, Upload, Pencil, Film, BarChart3 } from "lucide-react";
+import { ArrowLeft, ChevronRight, Upload, Pencil, Film, BarChart3, Home } from "lucide-react";
 import { quickStats } from "@/data/mockData";
 
 export default function AdminPanel() {
@@ -15,7 +15,38 @@ export default function AdminPanel() {
         <h1 className="text-white text-xl font-bold">Admin Panel</h1>
       </div>
 
-      <div className="px-4 mt-4 flex flex-col gap-3">
+      <div className="px-4 mt-5 flex flex-col gap-3">
+        {/* Title + Logout */}
+        <div className="flex items-start justify-between mb-1">
+          <div>
+            <h2 className="text-white text-2xl font-bold">Admin Panel</h2>
+            <p className="text-white/50 text-sm mt-0.5">Welcome, Sarvesh Kaijkar</p>
+          </div>
+          <button className="border border-red-500 text-red-400 text-sm font-semibold px-4 py-1.5 rounded-lg active:opacity-70">
+            Logout
+          </button>
+        </div>
+
+        {/* Content Management */}
+        <h2 className="text-white text-base font-bold mt-3">Content Management</h2>
+
+        {/* Go to Main App - purple border */}
+        <Link href="/">
+          <div
+            className="rounded-xl px-4 py-4 flex items-center gap-4 cursor-pointer active:opacity-80"
+            style={{ border: "1.5px solid rgba(139,92,246,0.7)", background: "rgba(139,92,246,0.08)" }}
+          >
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(139,92,246,0.18)" }}>
+              <Home size={20} className="text-violet-400" strokeWidth={1.5} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-semibold text-[15px]">Go to Main App</p>
+              <p className="text-white/50 text-xs mt-0.5">View feed, explore clips, and manage your profile</p>
+            </div>
+            <ChevronRight size={18} className="text-white/40 flex-shrink-0" />
+          </div>
+        </Link>
+
         {/* Upload Podcast */}
         <Link href="/upload-clip">
           <div className="bg-white/5 border border-white/8 rounded-xl px-4 py-4 flex items-center gap-4 cursor-pointer active:bg-white/10">
@@ -60,7 +91,7 @@ export default function AdminPanel() {
         </Link>
 
         {/* Insights */}
-        <h2 className="text-white text-lg font-bold mt-3">Insights</h2>
+        <h2 className="text-white text-base font-bold mt-3">Insights</h2>
 
         <div className="bg-white/5 border border-white/8 rounded-xl px-4 py-4 flex items-center gap-4 cursor-pointer active:bg-white/10">
           <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
@@ -74,7 +105,7 @@ export default function AdminPanel() {
         </div>
 
         {/* Quick Stats */}
-        <h2 className="text-white text-lg font-bold mt-3">Quick Stats</h2>
+        <h2 className="text-white text-base font-bold mt-3">Quick Stats</h2>
 
         <div className="grid grid-cols-2 gap-3">
           {[

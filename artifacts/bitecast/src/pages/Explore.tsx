@@ -1,6 +1,5 @@
 import { categories, playlists } from "@/data/mockData";
 import { Play } from "lucide-react";
-import { Link } from "wouter";
 
 export default function Explore() {
   return (
@@ -20,7 +19,7 @@ export default function Explore() {
               style={{ background: cat.color, border: "1px solid rgba(255,255,255,0.08)" }}
             >
               <h3 className="text-white font-bold text-[15px] mb-1">{cat.name}</h3>
-              <p className="text-white/60 text-xs leading-snug">{cat.description}</p>
+              <p className="text-white/55 text-xs leading-snug">{cat.description}</p>
             </div>
           ))}
         </div>
