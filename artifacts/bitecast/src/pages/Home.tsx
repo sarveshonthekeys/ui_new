@@ -6,7 +6,6 @@ import { Link } from "wouter";
 function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, field: "liked" | "saved", val: boolean) => void }) {
   return (
     <div className="mb-5 px-4">
-      {/* Author row */}
       <div className="flex items-center gap-2 mb-2">
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
@@ -21,7 +20,6 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
         </span>
       </div>
 
-      {/* Thumbnail */}
       <Link href={`/player/${clip.id}`}>
         <div
           className="w-full rounded-2xl relative overflow-hidden cursor-pointer"
@@ -39,27 +37,21 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
         </div>
       </Link>
 
-      {/* Title */}
       <p className="text-[15px] font-semibold leading-snug mt-2.5 mb-2" style={{ color: "var(--text-primary)" }}>
         {clip.title}
       </p>
 
-      {/* Stats row */}
       <div className="flex items-center gap-5">
         <button
           className="flex items-center gap-1.5 active:scale-95 transition-transform"
           onClick={() => onUpdate(clip.id, "liked", !clip.liked)}
         >
-          <Heart
-            size={18}
-            strokeWidth={1.5}
-            style={{ color: clip.liked ? "#f87171" : "var(--text-secondary)" }}
-          />
+          <Heart size={18} strokeWidth={1.5} style={{ color: clip.liked ? "#f87171" : "var(--text-secondary)" }} />
           <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>{clip.likes}</span>
         </button>
 
         <div className="flex items-center gap-1.5">
-          <Eye size={18} style={{ color: "var(--text-secondary)" }} strokeWidth={1.5} />
+          <Eye size={18} strokeWidth={1.5} style={{ color: "var(--text-secondary)" }} />
           <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>{clip.views}</span>
         </div>
 
@@ -67,11 +59,7 @@ function VideoCard({ clip, onUpdate }: { clip: Clip; onUpdate: (id: string, fiel
           className="flex items-center gap-1.5 active:scale-95 transition-transform"
           onClick={() => onUpdate(clip.id, "saved", !clip.saved)}
         >
-          <Bookmark
-            size={18}
-            strokeWidth={1.5}
-            style={{ color: clip.saved ? "var(--accent-purple)" : "var(--text-secondary)" }}
-          />
+          <Bookmark size={18} strokeWidth={1.5} style={{ color: clip.saved ? "var(--accent-purple)" : "var(--text-secondary)" }} />
           <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>{clip.bookmarks}</span>
         </button>
       </div>
@@ -103,10 +91,7 @@ export default function Home() {
         className="flex items-center justify-between px-4 py-4 sticky top-0 z-40"
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
-        <div>
-          <h1 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>BiteCast</h1>
-          <p className="text-[11px] mt-0.5" style={{ color: "var(--text-secondary)" }}>Your daily dose of ideas</p>
-        </div>
+        <h1 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>BiteCast</h1>
         <button
           className="w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
           style={{ background: "var(--bg-elevated)" }}
