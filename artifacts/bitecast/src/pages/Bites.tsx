@@ -24,34 +24,32 @@ function DescriptionOverlay({ clip, onClose }: { clip: Clip; onClose: () => void
 
   return (
     <div
-      className="absolute inset-0 z-30 overflow-y-auto"
-      style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.82) 40%, rgba(0,0,0,0.92) 100%)" }}
-      onClick={(e) => e.stopPropagation()}
+      className="absolute inset-0 z-30 flex flex-col justify-end"
+      onClick={onClose}
     >
-      <div className="p-4 pt-6 pb-24">
-        {/* Back arrow */}
-        <button onClick={onClose} className="text-white mb-5">
-          <ArrowLeft size={24} />
-        </button>
-
-        {/* Author */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-xs font-bold">?</span>
-          </div>
-          <span className="text-white font-semibold text-sm">{clip.author}</span>
+      {/* Bottom half sheet */}
+      <div
+        className="h-1/2 rounded-t-2xl overflow-y-auto"
+        style={{ background: "rgba(10,10,10,0.96)", backdropFilter: "blur(8px)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Drag handle */}
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="w-9 h-1 rounded-full bg-white/25" />
         </div>
 
-        {/* Title */}
-        <h2 className="text-white font-bold text-xl leading-snug mb-4">{clip.title}</h2>
+        <div className="px-4 pt-2 pb-8">
+          {/* Title */}
+          <h2 className="text-white font-bold text-base leading-snug mb-3">{clip.title}</h2>
 
-        {/* Description paragraphs */}
-        <div className="flex flex-col gap-4">
-          {paragraphs.map((para, i) => (
-            <p key={i} className="text-white/90 text-sm leading-relaxed">
-              {para}
-            </p>
-          ))}
+          {/* Description paragraphs */}
+          <div className="flex flex-col gap-3">
+            {paragraphs.map((para, i) => (
+              <p key={i} className="text-white/80 text-sm leading-relaxed">
+                {para}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>
