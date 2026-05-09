@@ -35,7 +35,7 @@ export default function UploadClip() {
   return (
     <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
       <div
-        className="flex items-center gap-3 px-4 pt-5 pb-4 sticky top-0 z-40"
+        className="flex items-center gap-3 px-4 pt-5 pb-4"
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         <button onClick={() => navigate("/admin")} className="active:opacity-60">

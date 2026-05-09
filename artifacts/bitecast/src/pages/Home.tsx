@@ -81,7 +81,7 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-20" style={{ background: "var(--bg-primary)" }}>
       <div
-        className="flex items-center justify-between px-4 py-4 sticky top-0 z-40"
+        className="flex items-center justify-between px-4 py-4"
         style={{ background: "rgba(11,15,20,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         <h1 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>BiteCast</h1>
