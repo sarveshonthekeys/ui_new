@@ -238,10 +238,10 @@ export default function Bites() {
       {!showAbout && (
         <button
           className="absolute top-4 left-4 z-50 w-9 h-9 rounded-full flex items-center justify-center active:opacity-70"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" }}
+          style={{ background: "rgba(255,255,255,0.04)" }}
           onClick={() => navigate("/")}
         >
-          <ArrowLeft size={18} className="text-white" />
+          <ArrowLeft size={18} style={{ color: "rgba(255,255,255,0.35)" }} />
         </button>
       )}
 

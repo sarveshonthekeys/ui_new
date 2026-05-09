@@ -13,6 +13,8 @@ import UploadClipDemo from "@/pages/UploadClipDemo";
 import ActivityHistory from "@/pages/ActivityHistory";
 import AccountSettings from "@/pages/AccountSettings";
 import HelpSupport from "@/pages/HelpSupport";
+import GenrePage from "@/pages/GenrePage";
+import PlaylistPage from "@/pages/PlaylistPage";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,8 @@ function AppShell() {
             <Route path="/activity" component={ActivityHistory} />
             <Route path="/account-settings" component={AccountSettings} />
             <Route path="/help" component={HelpSupport} />
+            <Route path="/genre/:id" component={GenrePage} />
+            <Route path="/playlist/:id" component={PlaylistPage} />
             <Route component={Home} />
           </Switch>
         </div>
