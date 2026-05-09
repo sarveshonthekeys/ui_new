@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { clips } from "@/data/mockData";
 import { Heart, Bookmark } from "lucide-react";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 
 export default function Library() {
   const [tab, setTab] = useState<"liked" | "saved">("liked");
+  const [, navigate] = useLocation();
   const filtered = clips.filter((c) => (tab === "liked" ? c.liked : c.saved));
 
   return (
@@ -47,19 +48,21 @@ export default function Library() {
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {filtered.map((clip) => (
-              <Link key={clip.id} href={`/player/${clip.id}`}>
-                <div className="cursor-pointer active:opacity-75 transition-opacity">
-                  <div
-                    className="w-full rounded-2xl relative overflow-hidden"
-                    style={{ background: clip.thumbnailColor, aspectRatio: "9/14", border: "1px solid rgba(255,255,255,0.05)" }}
-                  >
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.75) 0%, transparent 55%)" }} />
-                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
-                      <p className="font-semibold text-[11px] leading-snug line-clamp-2 text-white">{clip.title}</p>
-                    </div>
+              <div
+                key={clip.id}
+                className="cursor-pointer active:opacity-75 transition-opacity"
+                onClick={() => navigate(`/bites?clip=${clip.id}`)}
+              >
+                <div
+                  className="w-full rounded-2xl relative overflow-hidden"
+                  style={{ background: clip.thumbnailColor, aspectRatio: "9/14", border: "1px solid rgba(255,255,255,0.05)" }}
+                >
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(11,15,20,0.75) 0%, transparent 55%)" }} />
+                  <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
+                    <p className="font-semibold text-[11px] leading-snug line-clamp-2 text-white">{clip.title}</p>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

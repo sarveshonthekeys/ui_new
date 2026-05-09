@@ -138,7 +138,15 @@ export default function Bites() {
   const search = useSearch();
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(() => {
+    const params = new URLSearchParams(search);
+    const clipId = params.get("clip");
+    if (clipId) {
+      const idx = clips.findIndex((c) => c.id === clipId);
+      if (idx >= 0) return idx;
+    }
+    return 0;
+  });
   const [showAbout, setShowAbout] = useState(false);
   const didScrollRef = useRef(false);
 
@@ -152,16 +160,17 @@ export default function Bites() {
 
   useEffect(() => {
     if (didScrollRef.current) return;
+    didScrollRef.current = true;
     const params = new URLSearchParams(search);
     const clipId = params.get("clip");
-    if (clipId) {
-      const idx = clips.findIndex((c) => c.id === clipId);
-      if (idx > 0 && scrollRef.current) {
+    if (!clipId) return;
+    const idx = clips.findIndex((c) => c.id === clipId);
+    if (idx <= 0) return;
+    requestAnimationFrame(() => {
+      if (scrollRef.current) {
         scrollRef.current.scrollLeft = idx * scrollRef.current.clientWidth;
-        setCurrent(idx);
       }
-    }
-    didScrollRef.current = true;
+    });
   }, [search]);
 
   const currentClip = clips[current];

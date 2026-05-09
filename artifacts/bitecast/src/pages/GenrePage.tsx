@@ -2,28 +2,15 @@ import { useParams, useLocation } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { playlists, genreNames } from "@/data/mockData";
 
-const BASE = import.meta.env.BASE_URL;
-
-const genreImages: Record<string, string> = {
-  business:   `${BASE}cat-business.png`,
-  mindset:    `${BASE}cat-mindset.png`,
-  science:    `${BASE}cat-science.png`,
-  history:    `${BASE}cat-history.png`,
-  health:     `${BASE}cat-health.png`,
-  philosophy: `${BASE}cat-philosophy.png`,
-};
-
 export default function GenrePage() {
   const { id } = useParams<{ id: string }>();
   const [, navigate] = useLocation();
 
   const name = genreNames[id] ?? id;
-  const image = genreImages[id];
   const filtered = playlists.filter((p) => p.genreId === id);
 
   return (
     <div className="min-h-screen pb-24" style={{ background: "var(--bg-primary)" }}>
-      {/* Back button */}
       <div className="px-4 pt-5 pb-4 flex items-center gap-3">
         <button onClick={() => navigate("/explore")} className="active:opacity-60">
           <ArrowLeft size={22} strokeWidth={1.5} style={{ color: "var(--text-primary)" }} />
@@ -31,14 +18,6 @@ export default function GenrePage() {
         <h1 className="text-[20px] font-bold" style={{ color: "var(--text-primary)" }}>{name}</h1>
       </div>
 
-      {/* Hero image */}
-      {image && (
-        <div className="px-4 mb-6">
-          <img src={image} alt={name} className="w-full rounded-2xl block" draggable={false} />
-        </div>
-      )}
-
-      {/* Playlists */}
       <div className="px-4">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>
           Playlists
