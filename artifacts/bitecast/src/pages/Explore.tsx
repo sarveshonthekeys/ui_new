@@ -32,7 +32,7 @@ export default function Explore() {
       {/* Categories — 2 per row, native ratio, no border */}
       <div className="px-4 mt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--text-secondary)" }}>Categories</p>
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-2 gap-2">
           {categories.map(({ id, image }) => (
             <div
               key={id}
