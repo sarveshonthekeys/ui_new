@@ -278,7 +278,7 @@ export default function Bites() {
           </button>
 
           <button className="active:scale-90 transition-transform" onClick={() => update(currentClip.id, { speedIdx: (state.speedIdx + 1) % speeds.length })}>
-            <span className="text-white text-[13px] font-bold">{speeds[state.speedIdx]}x</span>
+            <span className="text-white text-[13px] font-bold inline-block text-center" style={{ width: "32px" }}>{speeds[state.speedIdx]}x</span>
           </button>
         </div>
       )}
